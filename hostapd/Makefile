@@ -3,12 +3,17 @@ CC=gcc
 endif
 
 ifndef CFLAGS
-CFLAGS = -MMD -O2 -Wall -g
+#zlx start
+#CFLAGS = -MMD -O2 -Wall -g
+CFLAGS = -MMD -Wall -g -ggdb -fPIC
+LDFLAGS=-L/usr/local/ssl/lib
+#zlx end
 endif
 
 CFLAGS += $(EXTRA_CFLAGS)
 CFLAGS += -I$(abspath ../src)
 CFLAGS += -I$(abspath ../src/utils)
+
 
 export BINDIR ?= /usr/local/bin/
 
@@ -934,7 +939,7 @@ OBJS += ../src/fst/fst_ctrl_iface.o
 endif
 endif
 
-ALL=hostapd hostapd_cli
+ALL=hostapd hostapd_cli libhostapd.so loader
 
 all: verify_config $(ALL)
 
@@ -982,8 +987,17 @@ install: $(addprefix $(DESTDIR)$(BINDIR)/,$(ALL))
 BCHECK=../src/drivers/build.hostapd
 
 hostapd: $(BCHECK) $(OBJS)
-	$(Q)$(CC) $(LDFLAGS) -o hostapd $(OBJS) $(LIBS)
+	$(Q)$(CC) $(LDFLAGS) -o myhostapd $(OBJS) $(LIBS)
 	@$(E) "  LD " $@
+
+loader: loader.c
+	g++ loader.c -ldl -o $@
+	chmod +x loader
+
+libhostapd.so: $(OBJS)
+	@$(E) "  CC  $@ ($^)"
+	$(Q)$(CC) $(LDFLAGS) -o $@ $(CFLAGS) -shared -fPIC $^ $(LIBS)
+	cp libhostapd.so /root/ctm-wifi-radius/modules/pyrad/eap/
 
 ifdef CONFIG_WPA_TRACE
 OBJS_c += ../src/utils/trace.o
@@ -1034,11 +1048,16 @@ lcov-html:
 	lcov -c -d .. > lcov.info
 	genhtml lcov.info --output-directory lcov-html
 
+ifdef CONFIG_I
 clean:
 	$(MAKE) -C ../src clean
 	rm -f core *~ *.o hostapd hostapd_cli nt_password_hash hlr_auc_gw
 	rm -f *.d *.gcno *.gcda *.gcov
 	rm -f lcov.info
 	rm -rf lcov-html
+else
+clean:
+	ls
+endif
 
 -include $(OBJS:%.o=%.d)
