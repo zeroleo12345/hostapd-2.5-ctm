@@ -47,10 +47,10 @@ endif
 
 ifdef test
 OBJS += test_main.o
-HOSTAPD_NAME = test_hostapd
+ALL=test_hostapd libhostapd.so loader
 else
 OBJS += main.o
-HOSTAPD_NAME = hostapd
+ALL=hostapd hostapd_cli
 endif
 
 OBJS += config_file.o
@@ -946,8 +946,6 @@ OBJS += ../src/fst/fst_ctrl_iface.o
 endif
 endif
 
-ALL=hostapd hostapd_cli libhostapd.so loader
-
 all: verify_config $(ALL)
 
 Q=@
@@ -994,7 +992,11 @@ install: $(addprefix $(DESTDIR)$(BINDIR)/,$(ALL))
 BCHECK=../src/drivers/build.hostapd
 
 hostapd: $(BCHECK) $(OBJS)
-	$(Q)$(CC) $(LDFLAGS) -o $(HOSTAPD_NAME) $(OBJS) $(LIBS)
+	$(Q)$(CC) $(LDFLAGS) -o hostapd $(OBJS) $(LIBS)
+	@$(E) "  LD " $@
+
+test_hostapd: $(BCHECK) $(OBJS)
+	$(Q)$(CC) $(LDFLAGS) -o test_hostapd $(OBJS) $(LIBS)
 	@$(E) "  LD " $@
 
 loader: loader.c
