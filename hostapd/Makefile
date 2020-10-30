@@ -1059,6 +1059,7 @@ clean:
 	$(MAKE) -C ../src clean
 	rm -f core *~ *.o hostapd hostapd_cli nt_password_hash hlr_auc_gw
 	rm -f *.d *.gcno *.gcda *.gcov
+	rm -f libhostapd.so loader test_hostapd 2>/dev/null
 	rm -f lcov.info
 	rm -rf lcov-html
 
