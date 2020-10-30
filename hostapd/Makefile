@@ -45,7 +45,14 @@ CFLAGS += -DCONFIG_NATIVE_WINDOWS
 LIBS += -lws2_32
 endif
 
+ifdef test
+OBJS += test_main.o
+HOSTAPD_NAME = test_hostapd
+else
 OBJS += main.o
+HOSTAPD_NAME = hostapd
+endif
+
 OBJS += config_file.o
 
 OBJS += ../src/ap/hostapd.o
@@ -987,7 +994,7 @@ install: $(addprefix $(DESTDIR)$(BINDIR)/,$(ALL))
 BCHECK=../src/drivers/build.hostapd
 
 hostapd: $(BCHECK) $(OBJS)
-	$(Q)$(CC) $(LDFLAGS) -o myhostapd $(OBJS) $(LIBS)
+	$(Q)$(CC) $(LDFLAGS) -o $(HOSTAPD_NAME) $(OBJS) $(LIBS)
 	@$(E) "  LD " $@
 
 loader: loader.c
@@ -997,7 +1004,7 @@ loader: loader.c
 libhostapd.so: $(OBJS)
 	@$(E) "  CC  $@ ($^)"
 	$(Q)$(CC) $(LDFLAGS) -o $@ $(CFLAGS) -shared -fPIC $^ $(LIBS)
-	cp libhostapd.so /root/ctm-wifi-radius/modules/pyrad/eap/
+	# cp libhostapd.so /root/ctm-wifi-radius/modules/pyrad/eap/
 
 ifdef CONFIG_WPA_TRACE
 OBJS_c += ../src/utils/trace.o
@@ -1048,16 +1055,11 @@ lcov-html:
 	lcov -c -d .. > lcov.info
 	genhtml lcov.info --output-directory lcov-html
 
-ifdef CONFIG_I
 clean:
 	$(MAKE) -C ../src clean
 	rm -f core *~ *.o hostapd hostapd_cli nt_password_hash hlr_auc_gw
 	rm -f *.d *.gcno *.gcda *.gcov
 	rm -f lcov.info
 	rm -rf lcov-html
-else
-clean:
-	ls
-endif
 
 -include $(OBJS:%.o=%.d)
