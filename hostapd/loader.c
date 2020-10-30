@@ -52,12 +52,12 @@ int main(int argc, char *argv[])
     }
 
     /*
-     void* pytlsv1_server_init(void * _global)
+     void* py_tlsv1_server_init(void * _global)
      u8* py_tlsv1_server_handshake(void *_server, const u8 *in_data, size_t in_len, size_t *out_len)
      void* py_global_init(void *out_cred)
      */
     // 加载函数指针 start
-    void* (*pytlsv1_server_init)(void *) = (void* (*)(void *))::dlsym(handler, "pytlsv1_server_init");
+    void* (*py_tlsv1_server_init)(void *) = (void* (*)(void *))::dlsym(handler, "py_tlsv1_server_init");
     if ( ( error = dlerror() ) != NULL) {
         printf ("dlerror:%s\n", error);
         return -1;
@@ -107,9 +107,9 @@ int main(int argc, char *argv[])
     // 1. each packet new one server handler
     //struct tlsv1_server *server = NULL;
     // os_zalloc(struct tlsv1_server *conn;) os_free()
-    void *server = pytlsv1_server_init((void*)global);
+    void *server = py_tlsv1_server_init((void*)global);
     if (server == NULL) {
-        printf("pytlsv1_server_init failed.\n");
+        printf("py_tlsv1_server_init failed.\n");
         py_free(global);
         return -1; 
     }
