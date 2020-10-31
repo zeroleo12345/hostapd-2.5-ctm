@@ -92,8 +92,7 @@ void* py_global_init(void *out_cred) {
     //struct tls_global *global = ssl_ctx;
     struct tls_connection_params params;
     os_memset(&params, 0, sizeof(params));
-    params.ca_cert = "/etc/pki/CA/cacert.pem"; //dir:  /usr/local/etc/raddb/certs/
-    //params.client_cert = "/etc/pki/CA/certs/clientcert.pem";
+    params.ca_cert = "/etc/pki/CA/cacert.pem";
     params.client_cert = "/etc/pki/CA/certs/servercert.pem";
     params.private_key = "/etc/pki/CA/private/serverkey.pem";
     params.private_key_passwd = "965pcsCTMRadius";
@@ -188,7 +187,7 @@ int main(int argc, char *argv[])
     py_os_free(global);
     return 0;
 }
-#else
+#else /* not USE_INTERNAL */
 #include <openssl/ssl.h>
 #include <openssl/err.h>
 #include <openssl/pkcs12.h>
@@ -202,6 +201,7 @@ int main(int argc, char *argv[])
 #ifndef OPENSSL_NO_DH
 #include <openssl/dh.h>
 #endif
+
 struct tls_connection {
     struct tls_context *context;
     SSL_CTX *ssl_ctx;
