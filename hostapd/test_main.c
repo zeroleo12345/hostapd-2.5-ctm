@@ -37,157 +37,6 @@ void myprint(const u8 *in_data, size_t in_len, int isIn) {
     printf("\n");
 }
 
-#ifdef USE_INTERNAL
-#include "../src/tls/tlsv1_server.h"
-#include "../src/eap_server/eap_i.h"
-#include "../src/tls/tlsv1_common.h"
-#include "../src/tls/tlsv1_record.h"
-#include "../src/tls/tlsv1_server_i.h"
-
-struct tls_global {
-    int server;
-    struct tlsv1_credentials *server_cred;
-    int check_crl;
-};
-
-int py_tlsv1_server_decrypt(void *conn, const u8 *in_data, size_t in_len, u8 *out_data, size_t max_out_len) {
-    //int tlsv1_server_decrypt(struct tlsv1_server *conn, const u8 *in_data, size_t in_len, u8 *out_data, size_t out_len)
-    struct tlsv1_server *server = (struct tlsv1_server *) conn;
-    int out_len = tlsv1_server_decrypt(server, in_data, in_len, out_data, max_out_len);
-    if( out_len == -1 )
-        printf("tlsv1_server_decrypt failed.\n");
-    return out_len;
-}
-
-int py_tlsv1_server_encrypt(void *conn, const u8 *in_data, size_t in_len, u8 *out_data, size_t max_out_len) {
-    // int tlsv1_server_encrypt(struct tlsv1_server *conn, const u8 *in_data, size_t in_len, u8 *out_data, size_t max_out_len)
-    struct tlsv1_server *server = (struct tlsv1_server *) conn;
-    int out_len = tlsv1_server_encrypt(server, in_data, in_len, out_data, max_out_len);
-    if( out_len == -1 )
-        printf("tlsv1_server_encrypt failed.\n");
-    return out_len;
-}
-
-int py_tlsv1_server_prf(void *server, const char *label, int server_random_first, u8 *out, size_t out_len) {
-    // eapKeyData
-    //int tlsv1_server_prf(struct tlsv1_server *conn, const char *label, int server_random_first, u8 *out, size_t out_len)
-    struct tlsv1_server * st_server = (struct tlsv1_server *) server;
-    int ret = tlsv1_server_prf(st_server, label, server_random_first, out, out_len);
-    if(ret == -1){
-        printf("tlsv1_server_prf failed.\n");
-    }
-    return ret;
-}
-
-void* py_global_init(void *out_cred) {
-    struct tls_config conf;
-    os_memset(&conf, 0, sizeof(conf));
-    // os_zalloc(struct tls_global *global) py_os_free()
-    void *global = tls_init(&conf);
-    if (global == NULL) {
-        wpa_printf(MSG_ERROR, "Failed to initialize TLS");
-        //py_os_free(global);
-        return NULL;
-    }
-    //struct tls_global *global = ssl_ctx;
-    struct tls_connection_params params;
-    os_memset(&params, 0, sizeof(params));
-    params.ca_cert = "/etc/pki/CA/cacert.pem";
-    params.client_cert = "/etc/pki/CA/certs/servercert.pem";
-    params.private_key = "/etc/pki/CA/private/serverkey.pem";
-    params.private_key_passwd = "965pcsCTMRadius";
-    params.dh_file = "/etc/pki/CA/dh";
-    params.openssl_ciphers = NULL;
-    params.ocsp_stapling_response = NULL;
-    // global cert.  os_zalloc(struct tlsv1_credentials *server_cred;) py_os_free()
-    if (tls_global_set_params(global, &params)) {
-        wpa_printf(MSG_ERROR, "Failed to set TLS parameters");
-        return NULL;
-    }
-    out_cred = ((struct tls_global *)global)->server_cred;
-    // return:  struct tls_global *
-    return (void*)global;
-}
-
-u8* py_tlsv1_server_handshake(void *server, const u8 *in_data, size_t in_len, size_t *out_len) {
-    struct tlsv1_server *st_server = (struct tlsv1_server *) server;
-    u8 * response = tlsv1_server_handshake(st_server, in_data, in_len, out_len);
-    if( response == NULL )
-        printf("tlsv1_server_handshake failed.\n");
-    return response;
-}
-
-void* py_tlsv1_server_init(void * global) {
-    struct tls_global * st_global = (struct tls_global*) global;
-    st_global->server = 1;
-    // return:     struct tlsv1_server *
-    struct tlsv1_server * server = tlsv1_server_init(st_global->server_cred);
-    server->client_version = 1;
-    return (void*)server;
-}
-
-int main(int argc, char *argv[])
-{
-    set_log_level(MSG_MSGDUMP);
-    // start
-    void *server_cred = NULL;
-    void *global = py_global_init(server_cred);
-    if( global == NULL ){
-        printf("py_global_init failed.\n");
-        return -1;
-    }
-
-    // read input
-    int fd, size;
-    unsigned char buffer[1024];
-    fd = open("./c_client_hello1", O_RDONLY);
-    if( fd == -1 ){
-        printf("open file failed.\n");
-        py_os_free(global);
-        return -1;
-    }
-    size = read(fd, buffer, sizeof(buffer));
-    close(fd);
-    /*
-    int i;
-    for( i=0; i < size; i++){
-        printf("%02X", buffer[i]);
-    }
-    printf("\nlen of input:%d\n", size);
-    */
-
-    // 1. each packet new one server handler
-    //struct tlsv1_server *server = NULL;
-    // os_zalloc(struct tlsv1_server *conn;) py_os_free()
-    void *server = py_tlsv1_server_init((void*)global);
-    if (server == NULL) {
-        printf("py_tlsv1_server_init failed.\n");
-        py_os_free(global);
-        return -1;
-    }
-    // 2. call handler function
-    u8 *response = NULL;
-    size_t response_len = 0;
-    u8 * in_data = buffer;
-    size_t in_data_len = size;
-    myprint(in_data, in_data_len, 1);
-    response = py_tlsv1_server_handshake(server, in_data, in_data_len, &response_len);
-    if( response == NULL ) {
-        printf("py_tlsv1_server_handshake failed.\n");
-        py_os_free(response);
-        py_os_free(server);
-        py_os_free(server_cred);
-        py_os_free(global);
-        return -1;
-    }
-    myprint(response, response_len, 0);
-    py_os_free(response);
-    py_os_free(server);
-    py_os_free(server_cred);
-    py_os_free(global);
-    return 0;
-}
-#else /* not USE_INTERNAL */
 #include <openssl/ssl.h>
 #include <openssl/err.h>
 #include <openssl/pkcs12.h>
@@ -251,16 +100,18 @@ void* py_authsrv_init() {
         return NULL;
     }
 
+    //struct tls_global *global = ssl_ctx;
     struct tls_connection_params params;
     os_memset(&params, 0, sizeof(params));
-    params.ca_cert = "/etc/pki/CA/cacert.pem"; //dir:  /usr/local/etc/raddb/certs/
-    //params.client_cert = "/etc/pki/CA/certs/clientcert.pem";
+    params.ca_cert = "/etc/pki/CA/cacert.pem";
     params.client_cert = "/etc/pki/CA/certs/servercert.pem";
     params.private_key = "/etc/pki/CA/private/serverkey.pem";
     params.private_key_passwd = "965pcsCTMRadius";
     params.dh_file = "/etc/pki/CA/dh";
     params.openssl_ciphers = NULL;
     params.ocsp_stapling_response = NULL;
+
+    // global cert.  os_zalloc(struct tlsv1_credentials *server_cred;) py_os_free()
     if (tls_global_set_params(ssl_ctx, &params)) {
         wpa_printf(MSG_ERROR, "Failed to set TLS parameters");
         tls_deinit(ssl_ctx);
@@ -387,4 +238,3 @@ int main(int argc, char *argv[])
     tls_deinit(ssl_ctx);
     return 0;
 }
-#endif

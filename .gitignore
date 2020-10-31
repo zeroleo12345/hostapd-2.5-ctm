@@ -5,3 +5,4 @@ hostapd/hostapd_cli
 hostapd/libhostapd.so
 hostapd/loader
 hostapd/test_hostapd
+.DS_Store
