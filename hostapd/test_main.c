@@ -92,11 +92,11 @@ struct tls_connection {
 };
 
 void* py_authsrv_init(char *ca_cert_path, char *client_cert_path, char *private_key_path, char *private_key_passwd, char *dh_file_path) {
-    wpa_printf(MSG_INFO, "ca_cert_path(%s).", ca_cert_path);
-    wpa_printf(MSG_INFO, "client_cert_path(%s).", client_cert_path);
-    wpa_printf(MSG_INFO, "private_key_path(%s).", private_key_path);
-    wpa_printf(MSG_INFO, "private_key_passwd(%s).", private_key_passwd);
-    wpa_printf(MSG_INFO, "dh_file_path(%s).", dh_file_path);
+    wpa_printf(MSG_INFO, "ca_cert_path: (%s)", ca_cert_path);
+    wpa_printf(MSG_INFO, "client_cert_path: (%s)", client_cert_path);
+    wpa_printf(MSG_INFO, "private_key_path: (%s)", private_key_path);
+    wpa_printf(MSG_INFO, "private_key_passwd: (%s)", private_key_passwd);
+    wpa_printf(MSG_INFO, "dh_file_path: (%s)", dh_file_path);
     if(access(ca_cert_path, R_OK) != 0) {
         wpa_printf(MSG_ERROR, "ca_cert_path(%s) not exist.", ca_cert_path);
         return NULL;
@@ -189,6 +189,7 @@ int main(int argc, char *argv[])
     char *private_key_path = "/Users/zlx/github/radius_server/etc/simulator/certs/server.key.pem";
     char *private_key_passwd = "1234";
     char *dh_file_path = "/Users/zlx/github/radius_server/etc/simulator/certs/dh";
+    printf("py_authsrv_init success.\n");
     void *ssl_ctx = py_authsrv_init(ca_cert_path, client_cert_path, private_key_path, private_key_passwd, dh_file_path); //tls_deinit();
     if( ssl_ctx == NULL ){
         printf("[E] py_authsrv_init failed!\n");
