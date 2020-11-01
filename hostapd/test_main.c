@@ -8,7 +8,7 @@
 #include "../src/crypto/tls.h"
 extern int wpa_debug_level;
 void set_log_level( int log_level ){
-    wpa_debug_level = log_level; //MSG_EXCESSIVE = 0 , MSG_MSGDUMP, MSG_DEBUG, MSG_INFO, MSG_WARNING, MSG_ERROR
+    wpa_debug_level = log_level; //MSG_EXCESSIVE = 0 , MSG_MSGDUMP =1 , MSG_DEBUG = 2, MSG_INFO = 3, MSG_WARNING = 4, MSG_ERROR = 5
 }
 
 void py_os_free( void *ptr ){
@@ -92,6 +92,11 @@ struct tls_connection {
 };
 
 void* py_authsrv_init(char *ca_cert_path, char *client_cert_path, char *private_key_path, char *private_key_passwd, char *dh_file_path) {
+    wpa_printf(MSG_INFO, "ca_cert_path(%s).", ca_cert_path);
+    wpa_printf(MSG_INFO, "client_cert_path(%s).", client_cert_path);
+    wpa_printf(MSG_INFO, "private_key_path(%s).", private_key_path);
+    wpa_printf(MSG_INFO, "private_key_passwd(%s).", private_key_passwd);
+    wpa_printf(MSG_INFO, "dh_file_path(%s).", dh_file_path);
     if(access(ca_cert_path, R_OK) != 0) {
         wpa_printf(MSG_ERROR, "ca_cert_path(%s) not exist.", ca_cert_path);
         return NULL;
