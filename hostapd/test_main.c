@@ -140,6 +140,7 @@ void* py_authsrv_init(char *ca_cert_path, char *client_cert_path, char *private_
         tls_deinit(ssl_ctx);
         return NULL;
     }
+    wpa_printf(MSG_INFO, "py_authsrv_init success.");
     return ssl_ctx;
 }
 
@@ -193,8 +194,6 @@ int main(int argc, char *argv[])
     if( ssl_ctx == NULL ){
         printf("[E] py_authsrv_init failed!\n");
         return -1;
-    } else {
-        printf("py_authsrv_init success.\n");
     }
 
     struct tls_connection *conn = tls_connection_init(ssl_ctx); // tls_connection_deinit(ssl_ctx, conn);
