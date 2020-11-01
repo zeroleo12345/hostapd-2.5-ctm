@@ -1,6 +1,7 @@
 #include "includes.h"
 #ifdef __linux__
 #include <fcntl.h>
+#include <unistd.h>
 #endif /* __linux__ */
 
 #include "common.h"
@@ -90,7 +91,24 @@ struct tls_connection {
 #endif
 };
 
-void* py_authsrv_init() {
+void* py_authsrv_init(char *ca_cert_path, char *client_cert_path, char *private_key_path, char *private_key_passwd, char *dh_file_path) {
+    if(access(ca_cert_path, R_OK) != 0) {
+        wpa_printf(MSG_ERROR, "ca_cert_path(%s) not exist.", ca_cert_path);
+        return NULL;
+    }
+    if(access(client_cert_path, R_OK) != 0) {
+        wpa_printf(MSG_ERROR, "client_cert_path(%s) not exist.", client_cert_path);
+        return NULL;
+    }
+    if(access(private_key_path, R_OK) != 0) {
+        wpa_printf(MSG_ERROR, "private_key_path(%s) not exist.", private_key_path);
+        return NULL;
+    }
+    if(access(dh_file_path, R_OK) != 0) {
+        wpa_printf(MSG_ERROR, "dh_file_path(%s) not exist.", dh_file_path);
+        return NULL;
+    }
+
     struct tls_config conf;
     os_memset(&conf, 0, sizeof(conf));
 
@@ -103,11 +121,11 @@ void* py_authsrv_init() {
     //struct tls_global *global = ssl_ctx;
     struct tls_connection_params params;
     os_memset(&params, 0, sizeof(params));
-    params.ca_cert = "/etc/pki/CA/cacert.pem";
-    params.client_cert = "/etc/pki/CA/certs/servercert.pem";
-    params.private_key = "/etc/pki/CA/private/serverkey.pem";
-    params.private_key_passwd = "965pcsCTMRadius";
-    params.dh_file = "/etc/pki/CA/dh";
+    params.ca_cert = ca_cert_path;              // "/etc/pki/CA/cacert.pem"
+    params.client_cert = client_cert_path;      // "/etc/pki/CA/certs/servercert.pem"
+    params.private_key = private_key_path;      // "/etc/pki/CA/private/serverkey.pem"
+    params.private_key_passwd = private_key_passwd;     // "965pcsCTMRadius"
+    params.dh_file = dh_file_path;                   // "/etc/pki/CA/dh"
     params.openssl_ciphers = NULL;
     params.ocsp_stapling_response = NULL;
 
@@ -161,23 +179,28 @@ int main(int argc, char *argv[])
 {
     set_log_level(MSG_MSGDUMP);
     // start
-    void *ssl_ctx = NULL;
-    ssl_ctx = py_authsrv_init(); //tls_deinit();
+    char *ca_cert_path = "/Users/zlx/github/radius_server/etc/simulator/certs/ca.cer.pem";
+    char *client_cert_path = "/Users/zlx/github/radius_server/etc/simulator/certs/server.cer.pem";
+    char *private_key_path = "/Users/zlx/github/radius_server/etc/simulator/certs/server.key.pem";
+    char *private_key_passwd = "1234";
+    char *dh_file_path = "/Users/zlx/github/radius_server/etc/simulator/certs/dh";
+    void *ssl_ctx = py_authsrv_init(ca_cert_path, client_cert_path, private_key_path, private_key_passwd, dh_file_path); //tls_deinit();
     if( ssl_ctx == NULL ){
-        printf("py_authsrv_init failed.\n");
+        printf("[E] py_authsrv_init failed!\n");
         return -1;
+    } else {
+        printf("py_authsrv_init success.\n");
     }
 
     // read input
-    int fd, size;
     unsigned char buffer[1024];
-    fd = open("./c_client_hello1", O_RDONLY);
+    int fd = open("./c_client_hello1", O_RDONLY);
     if( fd == -1 ){
         printf("open file failed.\n");
         tls_deinit(ssl_ctx);
         return -1;
     }
-    size = read(fd, buffer, sizeof(buffer));
+    int size = read(fd, buffer, sizeof(buffer));
     close(fd);
     /*
     int i;
@@ -198,9 +221,11 @@ int main(int argc, char *argv[])
     }*/   
     struct tls_connection *conn = tls_connection_init(ssl_ctx); // tls_connection_deinit(ssl_ctx, conn);
     if (conn == NULL) {
-        printf("SSL: Failed to initialize new TLS connection.\n");
+        printf("[E] SSL: Failed to initialize new TLS connection!\n");
         tls_deinit(ssl_ctx);
         return -1;
+    } else {
+        printf("tls_connection_init success.\n");
     }
 
     // 2. call handler function
@@ -226,11 +251,14 @@ int main(int argc, char *argv[])
     myprint(tls_in->buf, tls_in->used, 1);
     struct wpabuf *tls_out = tls_connection_server_handshake(ssl_ctx, conn, tls_in, NULL);
     if (tls_out == NULL) {
-        printf("SSL: TLS processing failed.\n");
+        printf("[E] SSL: TLS processing failed!\n");
         tls_connection_deinit(ssl_ctx, conn);
         tls_deinit(ssl_ctx);
         return -1;
+    } else {
+        printf("tls_connection_server_handshake success.\n");
     }
+
     myprint(tls_out->buf, tls_out->used, 0);
     wpabuf_free(tls_in);
     wpabuf_free(tls_out);
