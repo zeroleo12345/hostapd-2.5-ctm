@@ -1006,7 +1006,7 @@ loader: loader.c
 libhostapd.so: $(OBJS)
 	@$(E) "  CC  $@ ($^)"
 	$(Q)$(CC) $(LDFLAGS) -o $@ $(CFLAGS) -shared -fPIC $^ $(LIBS)
-	# cp libhostapd.so /root/ctm-wifi-radius/modules/pyrad/eap/
+	cp libhostapd.so ../../../lib
 
 ifdef CONFIG_WPA_TRACE
 OBJS_c += ../src/utils/trace.o
