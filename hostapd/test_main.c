@@ -192,6 +192,15 @@ int main(int argc, char *argv[])
         printf("py_authsrv_init success.\n");
     }
 
+    struct tls_connection *conn = tls_connection_init(ssl_ctx); // tls_connection_deinit(ssl_ctx, conn);
+    if (conn == NULL) {
+        printf("[E] SSL: Failed to initialize new TLS connection!\n");
+        tls_deinit(ssl_ctx);
+        return -1;
+    } else {
+        printf("tls_connection_init success.\n");
+    }
+
     // read input
     unsigned char buffer[1024];
     int fd = open("./c_client_hello1", O_RDONLY);
@@ -219,14 +228,6 @@ int main(int argc, char *argv[])
         py_os_free(global);
         return -1; 
     }*/   
-    struct tls_connection *conn = tls_connection_init(ssl_ctx); // tls_connection_deinit(ssl_ctx, conn);
-    if (conn == NULL) {
-        printf("[E] SSL: Failed to initialize new TLS connection!\n");
-        tls_deinit(ssl_ctx);
-        return -1;
-    } else {
-        printf("tls_connection_init success.\n");
-    }
 
     // 2. call handler function
     u8 * in_data = buffer;
@@ -264,5 +265,6 @@ int main(int argc, char *argv[])
     wpabuf_free(tls_out);
     tls_connection_deinit(ssl_ctx, conn);
     tls_deinit(ssl_ctx);
+    printf("main end normal.\n");
     return 0;
 }
