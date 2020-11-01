@@ -196,6 +196,7 @@ int main(int argc, char *argv[])
         return -1;
     }
 
+    // 定义:  src/crypto/tls_none.c:31:struct tls_connection * tls_connection_init(void *tls_ctx)
     struct tls_connection *conn = tls_connection_init(ssl_ctx); // tls_connection_deinit(ssl_ctx, conn);
     if (conn == NULL) {
         printf("[E] SSL: Failed to initialize new TLS connection!\n");
