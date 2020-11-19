@@ -57,10 +57,32 @@ SM_STEP(EAP)	# SM_STEP_RUN(EAP)  -> 定义方法: static void sm_EAP_Step(struct
 			if (sm->currentMethod == EAP_TYPE_NONE) {
 				SM_ENTER(EAP, SELECT_ACTION);
 			} else {
-				SM_ENTER(EAP, METHOD_RESPONSE);
+				SM_ENTER(EAP, METHOD_RESPONSE);		# jump -> 3
 			}
 			break;
-		case EAP_SELECT_ACTION:		# 状态 3)
+		case EAP_METHOD_RESPONSE:	# 状态 3) 
+			/*
+			* Note: Mechanism to allow EAP methods to wait while going
+			* through pending processing is an extension to RFC 4137
+			* which only defines the transits to SELECT_ACTION and
+			* METHOD_REQUEST from this METHOD_RESPONSE state.
+			*/
+			if (sm->methodState == METHOD_END)
+				SM_ENTER(EAP, SELECT_ACTION);
+			else if (sm->method_pending == METHOD_PENDING_WAIT) {
+				wpa_printf(MSG_DEBUG, "EAP: Method has pending "
+					"processing - wait before proceeding to "
+					"METHOD_REQUEST state");
+			} else if (sm->method_pending == METHOD_PENDING_CONT) {
+				wpa_printf(MSG_DEBUG, "EAP: Method has completed "
+					"pending processing - reprocess pending "
+					"EAP message");
+				sm->method_pending = METHOD_PENDING_NONE;
+				SM_ENTER(EAP, METHOD_RESPONSE);
+			} else
+				SM_ENTER(EAP, METHOD_REQUEST);
+			break;
+		case EAP_SELECT_ACTION:
 			if (sm->decision == DECISION_FAILURE)
 				SM_ENTER(EAP, FAILURE);
 			else if (sm->decision == DECISION_SUCCESS)
@@ -124,28 +146,6 @@ SM_STEP(EAP)	# SM_STEP_RUN(EAP)  -> 定义方法: static void sm_EAP_Step(struct
 				SM_ENTER(EAP, DISCARD);
 			else
 				SM_ENTER(EAP, METHOD_RESPONSE);
-			break;
-		case EAP_METHOD_RESPONSE:
-			/*
-			* Note: Mechanism to allow EAP methods to wait while going
-			* through pending processing is an extension to RFC 4137
-			* which only defines the transits to SELECT_ACTION and
-			* METHOD_REQUEST from this METHOD_RESPONSE state.
-			*/
-			if (sm->methodState == METHOD_END)
-				SM_ENTER(EAP, SELECT_ACTION);
-			else if (sm->method_pending == METHOD_PENDING_WAIT) {
-				wpa_printf(MSG_DEBUG, "EAP: Method has pending "
-					"processing - wait before proceeding to "
-					"METHOD_REQUEST state");
-			} else if (sm->method_pending == METHOD_PENDING_CONT) {
-				wpa_printf(MSG_DEBUG, "EAP: Method has completed "
-					"pending processing - reprocess pending "
-					"EAP message");
-				sm->method_pending = METHOD_PENDING_NONE;
-				SM_ENTER(EAP, METHOD_RESPONSE);
-			} else
-				SM_ENTER(EAP, METHOD_REQUEST);
 			break;
 		case EAP_METHOD_REQUEST:
 			if (sm->m == NULL) {
