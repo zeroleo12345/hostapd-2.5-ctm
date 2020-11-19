@@ -1,0 +1,725 @@
+root@64caee1ef5e1:/app/tools/simulator/hostapd# hostapd ./hostapd-difoss.conf -dd
+random: Trying to read entropy from /dev/random
+Configuration file: ./hostapd-difoss.conf
+ctrl_interface_group=0
+Completing interface initialization
+Mode: (null)  Channel: 1  Frequency: -1 MHz
+hostapd_setup_bss(hapd=0x55fcc5fb8570 (eth0), first=1)
+TLS: Trusted root certificate(s) loaded
+eth0: interface state UNINITIALIZED->ENABLED
+eth0: AP-ENABLED 
+eth0: Setup of interface done.
+ctrl_iface not configured!
+random: Got 20/20 bytes from /dev/random
+RADIUS SRV: Received 126 bytes from 127.0.0.1:41543
+RADIUS SRV: Received data - hexdump(len=126): 01 00 00 7e fa be db 49 20 91 6b 25 20 bd 13 f6 97 87 0a d3 01 0b 61 6e 6f 6e 79 6d 6f 75 73 04 06 7f 00 00 01 1f 13 30 32 2d 30 30 2d 30 30 2d 30 30 2d 30 30 2d 30 31 0c 06 00 00 05 78 3d 06 00 00 00 13 4d 18 43 4f 4e 4e 45 43 54 20 31 31 4d 62 70 73 20 38 30 32 2e 31 31 62 4f 10 02 00 00 0e 01 61 6e 6f 6e 79 6d 6f 75 73 50 12 0f c2 e6 1a 72 40 05 e6 fd 94 39 ed 39 25 c5 49
+RADIUS message: code=1 (Access-Request) identifier=0 length=126
+   Attribute 1 (User-Name) length=11
+      Value: 'anonymous'
+   Attribute 4 (NAS-IP-Address) length=6
+      Value: 127.0.0.1
+   Attribute 31 (Calling-Station-Id) length=19
+      Value: '02-00-00-00-00-01'
+   Attribute 12 (Framed-MTU) length=6
+      Value: 1400
+   Attribute 61 (NAS-Port-Type) length=6
+      Value: 19
+   Attribute 77 (Connect-Info) length=24
+      Value: 'CONNECT 11Mbps 802.11b'
+   Attribute 79 (EAP-Message) length=16
+      Value: 0200000e01616e6f6e796d6f7573
+   Attribute 80 (Message-Authenticator) length=18
+      Value: 0fc2e61a724005e6fd9439ed3925c549
+RADIUS SRV: Creating a new session
+RADIUS SRV: User-Name - hexdump_ascii(len=9):
+     61 6e 6f 6e 79 6d 6f 75 73                        anonymous       
+RADIUS SRV: Matching user entry found
+RADIUS SRV: [0x0 127.0.0.1] New session created
+EAP: Server state machine created
+RADIUS SRV: New session 0x0 initialized
+RADIUS SRV: Received EAP data - hexdump(len=14): 02 00 00 0e 01 61 6e 6f 6e 79 6d 6f 75 73
+EAP: EAP entering state INITIALIZE
+EAP: parseEapResp: rxResp=1 rxInitiate=0 respId=0 respMethod=1 respVendor=0 respVendorMethod=0
+eth0: CTRL-EVENT-EAP-STARTED 00:00:00:00:00:00
+123456 SM_STEP(EAP) sm->EAP_state=1
+EAP: EAP entering state PICK_UP_METHOD
+eth0: CTRL-EVENT-EAP-PROPOSED-METHOD method=1
+123456 SM_STEP(EAP) sm->EAP_state=16
+EAP: EAP entering state METHOD_RESPONSE
+EAP-Identity: Peer identity - hexdump_ascii(len=9):
+     61 6e 6f 6e 79 6d 6f 75 73                        anonymous       
+RADIUS SRV: [0x0 127.0.0.1] EAP: EAP-Response/Identity 'anonymous'
+123456 SM_STEP(EAP) sm->EAP_state=5
+EAP: EAP entering state SELECT_ACTION
+EAP: getDecision: another method available -> CONTINUE
+123456 SM_STEP(EAP) sm->EAP_state=8
+EAP: EAP entering state PROPOSE_METHOD
+EAP: getNextMethod: vendor 0 type 13
+eth0: CTRL-EVENT-EAP-PROPOSED-METHOD vendor=0 method=13
+RADIUS SRV: [0x0 127.0.0.1] EAP: Propose EAP method vendor=0 method=13
+123456 SM_STEP(EAP) sm->EAP_state=7
+EAP: EAP entering state METHOD_REQUEST
+EAP: building EAP-Request: Identifier 1
+EAP-TLS: START -> CONTINUE
+123456 SM_STEP(EAP) sm->EAP_state=6
+EAP: EAP entering state SEND_REQUEST
+123456 SM_STEP(EAP) sm->EAP_state=9
+EAP: EAP entering state IDLE
+EAP: retransmit timeout 3 seconds (from dynamic back off; retransCount=0)
+123456 SM_STEP(EAP) sm->EAP_state=2
+RADIUS SRV: EAP data from the state machine - hexdump(len=6): 01 01 00 06 0d 20
+RADIUS SRV: Reply to 127.0.0.1:41543
+RADIUS message: code=11 (Access-Challenge) identifier=0 length=52
+   Attribute 24 (State) length=6
+      Value: 00000000
+   Attribute 79 (EAP-Message) length=8
+      Value: 010100060d20
+   Attribute 80 (Message-Authenticator) length=18
+      Value: f73cac0f8a9ea6e121ab6a265996ff8d
+RADIUS SRV: Received 124 bytes from 127.0.0.1:41543
+RADIUS SRV: Received data - hexdump(len=124): 01 01 00 7c 85 54 2d 56 9f 29 17 c0 83 8b f8 2b 45 e9 ea 43 01 0b 61 6e 6f 6e 79 6d 6f 75 73 04 06 7f 00 00 01 1f 13 30 32 2d 30 30 2d 30 30 2d 30 30 2d 30 30 2d 30 31 0c 06 00 00 05 78 3d 06 00 00 00 13 4d 18 43 4f 4e 4e 45 43 54 20 31 31 4d 62 70 73 20 38 30 32 2e 31 31 62 4f 08 02 01 00 06 03 19 18 06 00 00 00 00 50 12 0f ea 02 29 13 44 e4 af 02 04 85 54 2e 55 24 e4
+RADIUS message: code=1 (Access-Request) identifier=1 length=124
+   Attribute 1 (User-Name) length=11
+      Value: 'anonymous'
+   Attribute 4 (NAS-IP-Address) length=6
+      Value: 127.0.0.1
+   Attribute 31 (Calling-Station-Id) length=19
+      Value: '02-00-00-00-00-01'
+   Attribute 12 (Framed-MTU) length=6
+      Value: 1400
+   Attribute 61 (NAS-Port-Type) length=6
+      Value: 19
+   Attribute 77 (Connect-Info) length=24
+      Value: 'CONNECT 11Mbps 802.11b'
+   Attribute 79 (EAP-Message) length=8
+      Value: 020100060319
+   Attribute 24 (State) length=6
+      Value: 00000000
+   Attribute 80 (Message-Authenticator) length=18
+      Value: 0fea02291344e4af020485542e5524e4
+RADIUS SRV: Request for session 0x0
+RADIUS SRV: Received EAP data - hexdump(len=6): 02 01 00 06 03 19
+123456 SM_STEP(EAP) sm->EAP_state=2
+EAP: EAP entering state RECEIVED
+EAP: parseEapResp: rxResp=1 rxInitiate=0 respId=1 respMethod=3 respVendor=0 respVendorMethod=0
+123456 SM_STEP(EAP) sm->EAP_state=3
+EAP: EAP entering state NAK
+EAP: processing NAK (current EAP method index 1)
+EAP: configured methods - hexdump(len=64): 00 00 00 00 0d 00 00 00 00 00 00 00 19 00 00 00 00 00 00 00 15 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+EAP: list of methods supported by the peer - hexdump(len=1): 19
+EAP: new list of configured methods - hexdump(len=64): 00 00 00 00 0d 00 00 00 00 00 00 00 19 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+123456 SM_STEP(EAP) sm->EAP_state=11
+EAP: EAP entering state SELECT_ACTION
+EAP: getDecision: another method available -> CONTINUE
+123456 SM_STEP(EAP) sm->EAP_state=8
+EAP: EAP entering state PROPOSE_METHOD
+EAP: getNextMethod: vendor 0 type 25
+eth0: CTRL-EVENT-EAP-PROPOSED-METHOD vendor=0 method=25
+RADIUS SRV: [0x0 127.0.0.1] EAP: Propose EAP method vendor=0 method=25
+123456 SM_STEP(EAP) sm->EAP_state=7
+EAP: EAP entering state METHOD_REQUEST
+EAP: building EAP-Request: Identifier 2
+123456 eap_peap_buildReq() data->state=0
+EAP-PEAP: START -> PHASE1
+123456 SM_STEP(EAP) sm->EAP_state=6
+EAP: EAP entering state SEND_REQUEST
+123456 SM_STEP(EAP) sm->EAP_state=9
+EAP: EAP entering state IDLE
+EAP: retransmit timeout 3 seconds (from dynamic back off; retransCount=0)
+123456 SM_STEP(EAP) sm->EAP_state=2
+RADIUS SRV: EAP data from the state machine - hexdump(len=6): 01 02 00 06 19 21
+RADIUS SRV: Reply to 127.0.0.1:41543
+RADIUS message: code=11 (Access-Challenge) identifier=1 length=52
+   Attribute 24 (State) length=6
+      Value: 00000000
+   Attribute 79 (EAP-Message) length=8
+      Value: 010200061921
+   Attribute 80 (Message-Authenticator) length=18
+      Value: ec172f62de27aa9e8f272faa9ca6107e
+RADIUS SRV: Received 359 bytes from 127.0.0.1:41543
+RADIUS SRV: Received data - hexdump(len=359): 01 02 01 67 db 17 bf 89 d2 df 85 59 30 ec 97 91 bc be 0a fd 01 0b 61 6e 6f 6e 79 6d 6f 75 73 04 06 7f 00 00 01 1f 13 30 32 2d 30 30 2d 30 30 2d 30 30 2d 30 30 2d 30 31 0c 06 00 00 05 78 3d 06 00 00 00 13 4d 18 43 4f 4e 4e 45 43 54 20 31 31 4d 62 70 73 20 38 30 32 2e 31 31 62 4f f3 02 02 00 f1 19 01 16 03 01 00 e6 01 00 00 e2 03 03 3e b3 b9 71 50 48 de 16 4d a5 fb f8 2b de e3 f3 68 7d 55 2a 7e 77 bc 98 22 b1 0e 79 8f f6 cc c1 00 00 68 c0 30 c0 2c c0 28 c0 24 c0 14 c0 0a 00 a3 00 9f 00 6b 00 6a 00 39 00 38 00 88 00 87 c0 32 c0 2e c0 2a c0 26 c0 0f c0 05 00 9d 00 3d 00 35 00 84 c0 2f c0 2b c0 27 c0 23 c0 13 c0 09 00 a2 00 9e 00 67 00 40 00 33 00 32 00 9a 00 99 00 45 00 44 c0 31 c0 2d c0 29 c0 25 c0 0e c0 04 00 9c 00 3c 00 2f 00 96 00 41 00 ff 01 00 00 51 00 0b 00 04 03 00 01 02 00 0a 00 1c 00 1a 00 17 00 19 00 1c 00 1b 00 18 00 1a 00 16 00 0e 00 0d 00 0b 00 0c 00 09 00 0a 00 0d 00 20 00 1e 06 01 06 02 06 03 05 01 05 02 05 03 04 01 04 02 04 03 03 01 03 02 03 03 02 01 02 02 02 03 00 0f 00 01 01 18 06 00 00 00 00 50 12 28 5e f5 f6 a5 8a 9f 2e 09 12 e7 be 57 45 34 ef
+RADIUS message: code=1 (Access-Request) identifier=2 length=359
+   Attribute 1 (User-Name) length=11
+      Value: 'anonymous'
+   Attribute 4 (NAS-IP-Address) length=6
+      Value: 127.0.0.1
+   Attribute 31 (Calling-Station-Id) length=19
+      Value: '02-00-00-00-00-01'
+   Attribute 12 (Framed-MTU) length=6
+      Value: 1400
+   Attribute 61 (NAS-Port-Type) length=6
+      Value: 19
+   Attribute 77 (Connect-Info) length=24
+      Value: 'CONNECT 11Mbps 802.11b'
+   Attribute 79 (EAP-Message) length=243
+      Value: 020200f1190116030100e6010000e203033eb3b9715048de164da5fbf82bdee3f3687d552a7e77bc9822b10e798ff6ccc1000068c030c02cc028c024c014c00a00a3009f006b006a0039003800880087c032c02ec02ac026c00fc005009d003d00350084c02fc02bc027c023c013c00900a2009e0067004000330032009a009900450044c031c02dc029c025c00ec004009c003c002f0096004100ff01000051000b000403000102000a001c001a00170019001c001b0018001a0016000e000d000b000c0009000a000d0020001e060106020603050105020503040104020403030103020303020102020203000f000101
+   Attribute 24 (State) length=6
+      Value: 00000000
+   Attribute 80 (Message-Authenticator) length=18
+      Value: 285ef5f6a58a9f2e0912e7be574534ef
+RADIUS SRV: Request for session 0x0
+RADIUS SRV: Received EAP data - hexdump(len=241): 02 02 00 f1 19 01 16 03 01 00 e6 01 00 00 e2 03 03 3e b3 b9 71 50 48 de 16 4d a5 fb f8 2b de e3 f3 68 7d 55 2a 7e 77 bc 98 22 b1 0e 79 8f f6 cc c1 00 00 68 c0 30 c0 2c c0 28 c0 24 c0 14 c0 0a 00 a3 00 9f 00 6b 00 6a 00 39 00 38 00 88 00 87 c0 32 c0 2e c0 2a c0 26 c0 0f c0 05 00 9d 00 3d 00 35 00 84 c0 2f c0 2b c0 27 c0 23 c0 13 c0 09 00 a2 00 9e 00 67 00 40 00 33 00 32 00 9a 00 99 00 45 00 44 c0 31 c0 2d c0 29 c0 25 c0 0e c0 04 00 9c 00 3c 00 2f 00 96 00 41 00 ff 01 00 00 51 00 0b 00 04 03 00 01 02 00 0a 00 1c 00 1a 00 17 00 19 00 1c 00 1b 00 18 00 1a 00 16 00 0e 00 0d 00 0b 00 0c 00 09 00 0a 00 0d 00 20 00 1e 06 01 06 02 06 03 05 01 05 02 05 03 04 01 04 02 04 03 03 01 03 02 03 03 02 01 02 02 02 03 00 0f 00 01 01
+123456 SM_STEP(EAP) sm->EAP_state=2
+EAP: EAP entering state RECEIVED
+EAP: parseEapResp: rxResp=1 rxInitiate=0 respId=2 respMethod=25 respVendor=0 respVendorMethod=0
+123456 SM_STEP(EAP) sm->EAP_state=3
+EAP: EAP entering state INTEGRITY_CHECK
+123456 SM_STEP(EAP) sm->EAP_state=4
+EAP: EAP entering state METHOD_RESPONSE
+SSL: Received packet(len=241) - Flags 0x01
+SSL: Received packet: Flags 0x1 Message Length 0
+123456 eap_peap_process_msg() data->state=1
+SSL: (where=0x10 ret=0x1)
+SSL: (where=0x2001 ret=0x1)
+SSL: SSL_accept:before/accept initialization
+OpenSSL: RX ver=0x0 content_type=256
+OpenSSL: Message - hexdump(len=5): [REMOVED]
+OpenSSL: RX ver=0x303 content_type=22
+OpenSSL: Message - hexdump(len=230): [REMOVED]
+SSL: (where=0x2001 ret=0x1)
+SSL: SSL_accept:unknown state
+OpenSSL: TX ver=0x0 content_type=256
+OpenSSL: Message - hexdump(len=5): [REMOVED]
+OpenSSL: TX ver=0x303 content_type=22
+OpenSSL: Message - hexdump(len=54): [REMOVED]
+SSL: (where=0x2001 ret=0x1)
+SSL: SSL_accept:unknown state
+OpenSSL: TX ver=0x0 content_type=256
+OpenSSL: Message - hexdump(len=5): [REMOVED]
+OpenSSL: TX ver=0x303 content_type=22
+OpenSSL: Message - hexdump(len=1893): [REMOVED]
+SSL: (where=0x2001 ret=0x1)
+SSL: SSL_accept:unknown state
+OpenSSL: TX ver=0x0 content_type=256
+OpenSSL: Message - hexdump(len=5): [REMOVED]
+OpenSSL: TX ver=0x303 content_type=22
+OpenSSL: Message - hexdump(len=527): [REMOVED]
+SSL: (where=0x2001 ret=0x1)
+SSL: SSL_accept:unknown state
+OpenSSL: TX ver=0x0 content_type=256
+OpenSSL: Message - hexdump(len=5): [REMOVED]
+OpenSSL: TX ver=0x303 content_type=22
+OpenSSL: Message - hexdump(len=4): [REMOVED]
+SSL: (where=0x2001 ret=0x1)
+SSL: SSL_accept:unknown state
+SSL: (where=0x2001 ret=0x1)
+SSL: SSL_accept:unknown state
+SSL: (where=0x2001 ret=0x1)
+SSL: SSL_accept:unknown state
+SSL: (where=0x2002 ret=0xffffffff)
+SSL: SSL_accept:error in unknown state
+SSL: (where=0x2002 ret=0xffffffff)
+SSL: SSL_accept:error in unknown state
+SSL: SSL_connect - want more data
+SSL: 2498 bytes pending from ssl_out
+123456 SM_STEP(EAP) sm->EAP_state=5
+EAP: EAP entering state METHOD_REQUEST
+EAP: building EAP-Request: Identifier 3
+123456 eap_peap_buildReq() data->state=1
+SSL: Generating Request
+SSL: Sending out 1393 bytes (1105 more to send)
+123456 SM_STEP(EAP) sm->EAP_state=6
+EAP: EAP entering state SEND_REQUEST
+123456 SM_STEP(EAP) sm->EAP_state=9
+EAP: EAP entering state IDLE
+EAP: retransmit timeout 3 seconds (from dynamic back off; retransCount=0)
+123456 SM_STEP(EAP) sm->EAP_state=2
+RADIUS SRV: EAP data from the state machine - hexdump(len=1403): 01 03 05 7b 19 c1 00 00 09 c2 16 03 03 00 36 02 00 00 32 03 03 3d 26 3a 68 f3 db d8 4b da 3c a3 30 ed 53 a2 15 55 20 20 3c d0 94 30 6d ed f5 27 7a a8 42 37 b6 00 00 9f 00 00 0a ff 01 00 01 00 00 0f 00 01 01 16 03 03 07 65 0b 00 07 61 00 07 5e 00 03 b7 30 82 03 b3 30 82 02 9b a0 03 02 01 02 02 01 01 30 0d 06 09 2a 86 48 86 f7 0d 01 01 0b 05 00 30 65 31 0b 30 09 06 03 55 04 06 13 02 43 4e 31 0b 30 09 06 03 55 04 08 0c 02 47 44 31 0b 30 09 06 03 55 04 07 0c 02 47 5a 31 0a 30 08 06 03 55 04 0a 0c 01 45 31 0c 30 0a 06 03 55 04 0b 0c 03 45 49 53 31 0c 30 0a 06 03 55 04 03 0c 03 4d 41 4e 31 14 30 12 06 09 2a 86 48 86 f7 0d 01 09 01 16 05 65 6d 61 69 6c 30 1e 17 0d 32 30 31 30 32 35 30 35 34 35 33 33 5a 17 0d 32 31 31 30 32 35 30 35 34 35 33 33 5a 30 58 31 0b 30 09 06 03 55 04 06 13 02 43 4e 31 0b 30 09 06 03 55 04 08 0c 02 47 44 31 0a 30 08 06 03 55 04 0a 0c 01 45 31 0c 30 0a 06 03 55 04 0b 0c 03 45 49 53 31 0c 30 0a 06 03 55 04 03 0c 03 4d 41 4e 31 14 30 12 06 09 2a 86 48 86 f7 0d 01 09 01 16 05 65 6d 61 69 6c 30 82 01 22 30 0d 06 09 2a 86 48 86 f7 0d 01 01 01 05 00 03 82 01 0f 00 30 82 01 0a 02 82 01 01 00 be d8 b8 ba 89 ec b3 a4 8c 18 30 2f f4 29 14 69 58 39 e7 ac 1e 45 51 53 9a 82 91 07 1c 96 d6 43 0c 2b d0 2f 88 14 31 00 9c 24 9b 77 7d b8 5c e4 0a 93 da c6 56 ed 06 94 d1 dc 30 48 1f 1d 7c 6c 9a 3f 4e 34 3f 3f 13 5c 23 ea 3c ca e0 62 07 80 f6 44 34 5b 6a 00 e2 97 3b 00 0a fe b4 65 13 97 c3 c7 74 68 b5 e4 ae b9 cd 7e c1 5d da 00 a8 29 bd f9 03 0b 68 1b 03 96 5c 21 0d b7 92 05 b1 f7 36 c5 ba 60 f2 dd d4 9e 5a e2 72 be b0 8d ef d3 bf ff 1f a8 4a 19 77 f6 5c 82 db 48 42 d5 e5 55 6c e4 fc e4 9a 93 30 12 ae 19 08 96 0d 8a 24 7d 9b cc f0 ef 05 af 4f 2d 0e 69 5f 90 49 28 b8 1a ae 3a b3 12 92 ba 8e 15 64 7d d3 c6 d3 f2 17 f2 71 32 ba e4 6b 2a fb e4 8c 7b 2d e7 6f 9c b5 ef 8e 0e 76 da fb 66 2c da 8b b2 68 1c e2 45 db 08 44 72 da 83 fa ac da 13 f2 fd 17 c5 e2 c0 c7 c3 02 03 01 00 01 a3 7b 30 79 30 09 06 03 55 1d 13 04 02 30 00 30 2c 06 09 60 86 48 01 86 f8 42 01 0d 04 1f 16 1d 4f 70 65 6e 53 53 4c 20 47 65 6e 65 72 61 74 65 64 20 43 65 72 74 69 66 69 63 61 74 65 30 1d 06 03 55 1d 0e 04 16 04 14 62 33 05 d4 cf 78 c5 c4 f2 49 68 8f 1d c7 2c 6a 21 dc e3 68 30 1f 06 03 55 1d 23 04 18 30 16 80 14 9b 5d 7e 3f 59 6c 3e 6e 5c 25 4a 2c 6e eb 70 db c9 3b f9 c1 30 0d 06 09 2a 86 48 86 f7 0d 01 01 0b 05 00 03 82 01 01 00 14 56 4f 2a b0 0d 9e 7d 66 b9 85 a5 4c 0b b3 47 fc 68 88 b9 ed fb 1a 7f 27 51 10 8e a0 b4 b9 35 51 ad fb c3 a8 39 d7 7d d0 c3 9e 0b 66 4a 3c cf 97 34 47 94 65 c5 c3 65 3c aa c5 1e ca 39 b3 c2 9b 6b d9 68 80 fb 08 bc 0a 0c 71 31 64 58 5c 21 c5 57 25 d6 fa a4 60 64 d4 ea 3a 8f 46 1d 4f fa 4a 26 50 ff 9c 6d e2 57 eb c1 e5 e9 90 07 53 6c 32 03 22 e3 ac 60 9e 02 11 d1 34 8b 75 29 35 89 01 d3 b8 de 49 78 9d 6c e9 79 ca 6c 8e 31 8f 2f 4a 97 42 fe b9 de dc 19 41 30 3d 0a 0e 6d 45 b5 c8 82 3e 3d 15 a9 a7 21 25 52 c4 0d a1 5e be b5 a6 c2 a5 eb 80 fe 31 1d f0 fc 91 de 21 df 23 f9 ac 31 83 82 98 5a ec ba 78 1c 2f 83 82 3e 49 3d 8f 34 08 fe ba bd 64 3b b6 18 5d 9c ed eb 12 d4 74 6c ea 98 8f 0c 73 92 f9 89 a2 7a 27 cc be 0c 47 54 94 10 d2 e3 02 96 d5 52 3b 32 66 fb d0 53 00 03 a1 30 82 03 9d 30 82 02 85 a0 03 02 01 02 02 09 00 e0 b5 7a fc 19 fe 1e 59 30 0d 06 09 2a 86 48 86 f7 0d 01 01 0b 05 00 30 65 31 0b 30 09 06 03 55 04 06 13 02 43 4e 31 0b 30 09 06 03 55 04 08 0c 02 47 44 31 0b 30 09 06 03 55 04 07 0c 02 47 5a 31 0a 30 08 06 03 55 04 0a 0c 01 45 31 0c 30 0a 06 03 55 04 0b 0c 03 45 49 53 31 0c 30 0a 06 03 55 04 03 0c 03 4d 41 4e 31 14 30 12 06 09 2a 86 48 86 f7 0d 01 09 01 16 05 65 6d 61 69 6c 30 1e 17 0d 32 30 31 30 32 35 30 35 32 31 34 34 5a 17 0d 32 31 31 30 32 35 30 35 32 31 34 34 5a 30 65 31 0b 30 09 06 03 55 04 06 13 02 43 4e 31 0b 30 09 06 03 55 04 08 0c 02 47 44 31 0b 30 09 06 03 55 04 07 0c 02 47 5a 31 0a 30 08 06 03 55 04 0a 0c 01 45 31 0c 30 0a 06 03 55 04 0b 0c 03 45 49 53 31 0c 30 0a 06 03 55 04 03 0c 03 4d 41 4e 31 14 30 12 06 09 2a 86 48 86 f7 0d 01 09 01 16 05 65 6d 61 69 6c 30 82 01 22 30 0d 06 09 2a 86 48 86 f7 0d 01 01 01 05 00 03 82 01 0f 00 30 82 01 0a 02 82 01 01 00 c0 e5 16 08 c3 a5 a3 60 ef 66 a4 0e 66 20 29 25 a0 b2 54 53 02 15 9c ed 2c 44 5c 3e 42 64 a5 12 dd eb a2 c9 cf 96 26 46 0b 54 69 8d 3a 73 cd 18 fc ed 9e 2a f3 ae 7f
+RADIUS SRV: Reply to 127.0.0.1:41543
+RADIUS message: code=11 (Access-Challenge) identifier=2 length=1459
+   Attribute 24 (State) length=6
+      Value: 00000000
+   Attribute 79 (EAP-Message) length=255
+      Value: 0103057b19c1000009c216030300360200003203033d263a68f3dbd84bda3ca330ed53a2155520203cd094306dedf5277aa84237b600009f00000aff01000100000f00010116030307650b00076100075e0003b7308203b33082029ba003020102020101300d06092a864886f70d01010b05003065310b300906035504061302434e310b300906035504080c024744310b300906035504070c02475a310a3008060355040a0c0145310c300a060355040b0c03454953310c300a06035504030c034d414e3114301206092a864886f70d0109011605656d61696c301e170d3230313032353035343533335a170d3231313032353035343533335a305831
+   Attribute 79 (EAP-Message) length=255
+      Value: 0b300906035504061302434e310b300906035504080c024744310a3008060355040a0c0145310c300a060355040b0c03454953310c300a06035504030c034d414e3114301206092a864886f70d0109011605656d61696c30820122300d06092a864886f70d01010105000382010f003082010a0282010100bed8b8ba89ecb3a48c18302ff42914695839e7ac1e4551539a8291071c96d6430c2bd02f881431009c249b777db85ce40a93dac656ed0694d1dc30481f1d7c6c9a3f4e343f3f135c23ea3ccae0620780f644345b6a00e2973b000afeb4651397c3c77468b5e4aeb9cd7ec15dda00a829bdf9030b681b03965c210db79205b1f736c5ba60f2
+   Attribute 79 (EAP-Message) length=255
+      Value: ddd49e5ae272beb08defd3bfff1fa84a1977f65c82db4842d5e5556ce4fce49a933012ae1908960d8a247d9bccf0ef05af4f2d0e695f904928b81aae3ab31292ba8e15647dd3c6d3f217f27132bae46b2afbe48c7b2de76f9cb5ef8e0e76dafb662cda8bb2681ce245db084472da83faacda13f2fd17c5e2c0c7c30203010001a37b307930090603551d1304023000302c06096086480186f842010d041f161d4f70656e53534c2047656e657261746564204365727469666963617465301d0603551d0e04160414623305d4cf78c5c4f249688f1dc72c6a21dce368301f0603551d230418301680149b5d7e3f596c3e6e5c254a2c6eeb70dbc93bf9c1
+   Attribute 79 (EAP-Message) length=255
+      Value: 300d06092a864886f70d01010b0500038201010014564f2ab00d9e7d66b985a54c0bb347fc6888b9edfb1a7f2751108ea0b4b93551adfbc3a839d77dd0c39e0b664a3ccf9734479465c5c3653caac51eca39b3c29b6bd96880fb08bc0a0c713164585c21c55725d6faa46064d4ea3a8f461d4ffa4a2650ff9c6de257ebc1e5e99007536c320322e3ac609e0211d1348b7529358901d3b8de49789d6ce979ca6c8e318f2f4a9742feb9dedc1941303d0a0e6d45b5c8823e3d15a9a7212552c40da15ebeb5a6c2a5eb80fe311df0fc91de21df23f9ac318382985aecba781c2f83823e493d8f3408febabd643bb6185d9cedeb12d4746cea988f0c7392f9
+   Attribute 79 (EAP-Message) length=255
+      Value: 89a27a27ccbe0c47549410d2e30296d5523b3266fbd0530003a13082039d30820285a003020102020900e0b57afc19fe1e59300d06092a864886f70d01010b05003065310b300906035504061302434e310b300906035504080c024744310b300906035504070c02475a310a3008060355040a0c0145310c300a060355040b0c03454953310c300a06035504030c034d414e3114301206092a864886f70d0109011605656d61696c301e170d3230313032353035323134345a170d3231313032353035323134345a3065310b300906035504061302434e310b300906035504080c024744310b300906035504070c02475a310a3008060355040a0c0145
+   Attribute 79 (EAP-Message) length=140
+      Value: 310c300a060355040b0c03454953310c300a06035504030c034d414e3114301206092a864886f70d0109011605656d61696c30820122300d06092a864886f70d01010105000382010f003082010a0282010100c0e51608c3a5a360ef66a40e66202925a0b2545302159ced2c445c3e4264a512ddeba2c9cf9626460b54698d3a73cd18fced9e2af3ae7f
+   Attribute 80 (Message-Authenticator) length=18
+      Value: 595d7f7dff6e770d969331e708287e92
+RADIUS SRV: Received 124 bytes from 127.0.0.1:41543
+RADIUS SRV: Received data - hexdump(len=124): 01 03 00 7c fb 68 f9 32 e2 6b 14 a9 5f e2 98 8a 42 b1 e1 aa 01 0b 61 6e 6f 6e 79 6d 6f 75 73 04 06 7f 00 00 01 1f 13 30 32 2d 30 30 2d 30 30 2d 30 30 2d 30 30 2d 30 31 0c 06 00 00 05 78 3d 06 00 00 00 13 4d 18 43 4f 4e 4e 45 43 54 20 31 31 4d 62 70 73 20 38 30 32 2e 31 31 62 4f 08 02 03 00 06 19 01 18 06 00 00 00 00 50 12 3f b9 40 9f 61 5a 3c 9f be a5 b0 d4 cc dc f0 c6
+RADIUS message: code=1 (Access-Request) identifier=3 length=124
+   Attribute 1 (User-Name) length=11
+      Value: 'anonymous'
+   Attribute 4 (NAS-IP-Address) length=6
+      Value: 127.0.0.1
+   Attribute 31 (Calling-Station-Id) length=19
+      Value: '02-00-00-00-00-01'
+   Attribute 12 (Framed-MTU) length=6
+      Value: 1400
+   Attribute 61 (NAS-Port-Type) length=6
+      Value: 19
+   Attribute 77 (Connect-Info) length=24
+      Value: 'CONNECT 11Mbps 802.11b'
+   Attribute 79 (EAP-Message) length=8
+      Value: 020300061901
+   Attribute 24 (State) length=6
+      Value: 00000000
+   Attribute 80 (Message-Authenticator) length=18
+      Value: 3fb9409f615a3c9fbea5b0d4ccdcf0c6
+RADIUS SRV: Request for session 0x0
+RADIUS SRV: Received EAP data - hexdump(len=6): 02 03 00 06 19 01
+123456 SM_STEP(EAP) sm->EAP_state=2
+EAP: EAP entering state RECEIVED
+EAP: parseEapResp: rxResp=1 rxInitiate=0 respId=3 respMethod=25 respVendor=0 respVendorMethod=0
+123456 SM_STEP(EAP) sm->EAP_state=3
+EAP: EAP entering state INTEGRITY_CHECK
+123456 SM_STEP(EAP) sm->EAP_state=4
+EAP: EAP entering state METHOD_RESPONSE
+SSL: Received packet(len=6) - Flags 0x01
+SSL: Received packet: Flags 0x1 Message Length 0
+SSL: Fragment acknowledged
+123456 SM_STEP(EAP) sm->EAP_state=5
+EAP: EAP entering state METHOD_REQUEST
+EAP: building EAP-Request: Identifier 4
+SSL: Generating Request
+SSL: Sending out 1105 bytes (message sent completely)
+123456 SM_STEP(EAP) sm->EAP_state=6
+EAP: EAP entering state SEND_REQUEST
+123456 SM_STEP(EAP) sm->EAP_state=9
+EAP: EAP entering state IDLE
+EAP: retransmit timeout 3 seconds (from dynamic back off; retransCount=0)
+123456 SM_STEP(EAP) sm->EAP_state=2
+RADIUS SRV: EAP data from the state machine - hexdump(len=1111): 01 04 04 57 19 01 84 92 85 76 89 2d f5 4e 95 2b a0 c7 30 0a 59 14 f3 00 ed 25 a4 2a 58 bd 3f 7b 25 2c 0d ed c0 a8 d9 5c e2 24 42 77 88 71 53 9f 5c 7c 0e 08 1f 84 9f 57 80 e7 39 fe e8 f0 15 28 45 0b 97 bc ec 11 fb 61 5d 44 19 7b 2d d7 76 af 05 4c 4a b0 06 b9 9a ca d1 fd 1f 14 47 f2 61 58 74 7c 96 0b f1 ec 17 8f 6b e6 5d c1 05 bb 8a b4 3c a8 47 a9 93 24 3c 5e d9 dc 05 4d 7c 74 69 a1 2d f0 4d 5a 3a c9 18 fa 7b 3b 34 e8 46 93 80 0f 02 3d 6d 4a 8d 32 fd 85 af 6f c8 08 24 fb 34 62 89 36 b7 a2 2c fd 7c ea c2 40 bb 61 26 82 87 ae aa 0a 30 7a d5 c3 da 06 62 41 14 4a 32 32 0a 8a 9d 24 89 0f b2 59 46 dc fb e5 23 45 4e d1 cf 02 03 01 00 01 a3 50 30 4e 30 1d 06 03 55 1d 0e 04 16 04 14 9b 5d 7e 3f 59 6c 3e 6e 5c 25 4a 2c 6e eb 70 db c9 3b f9 c1 30 1f 06 03 55 1d 23 04 18 30 16 80 14 9b 5d 7e 3f 59 6c 3e 6e 5c 25 4a 2c 6e eb 70 db c9 3b f9 c1 30 0c 06 03 55 1d 13 04 05 30 03 01 01 ff 30 0d 06 09 2a 86 48 86 f7 0d 01 01 0b 05 00 03 82 01 01 00 17 35 08 74 58 5b 24 63 56 09 83 64 76 6b 8f 0f 65 ca b1 17 c2 f0 48 38 63 44 44 a9 8e 6c e1 2c 44 d9 29 d4 a9 f0 00 5a 11 9e cd 5e 4e 37 5f 6d 37 e9 f6 c1 b6 02 6d fe d0 3e a4 c1 0b b1 ee d1 0e c0 89 d5 1f cb c4 d0 c6 82 fe 09 98 a2 a5 a5 85 fc 55 48 2c f2 66 a6 77 aa 91 ce 5f 58 4c 68 59 ec f0 a4 e2 83 8d 5d ac 28 a9 47 3a 22 06 e6 8a 78 82 9f 2f 17 07 70 da 0f 8b 98 82 8d 54 a4 ba 09 ee 3d 69 50 39 c6 ca 05 e9 b4 03 a0 bb c2 41 01 a1 82 b6 9d d6 83 dd 87 d7 74 54 63 1c ef c3 5b 84 c1 52 8a 6e 16 00 a4 6f c0 1e 3c 89 30 df 23 00 8f b2 23 63 f8 f0 5d 6a dc ce d7 eb 43 f6 a2 14 a0 5a 9c 7d ec 7b 50 03 ba 2f 3e 10 51 05 c6 e7 d3 96 c4 f7 7c 41 91 e2 a3 8c 45 71 79 4e a9 80 61 c3 c1 9a 04 b7 2c 2c 96 66 f2 4d e8 aa 45 8b a0 9c ec 7e 74 da b8 52 11 8a 48 16 62 16 03 03 02 0f 0c 00 02 0b 00 80 85 1d 47 81 d5 e2 03 73 d5 84 07 9a 93 4c 05 fc 6c cc cb 83 3a 60 8d ba 35 79 1e c0 32 c4 cd 33 38 39 8f 05 62 1f 73 a9 ec 3d 3d de 66 d9 30 12 ba 0b a2 94 da 45 e6 c4 73 84 65 4d c5 5c 7d ec bf 6c 6a 71 85 c8 bd 4c 9d a2 97 77 4a 93 38 ce 87 a1 e8 dd 50 c6 e0 d4 78 01 ee 98 bf 8e 86 0c 77 ef a3 6b a4 43 36 8f 6c 99 62 75 0a d9 2b a5 ff 72 81 3f 4d 02 6d 1e d6 5f c5 82 81 e2 e1 9b 00 01 02 00 80 5d d1 81 6a f2 5d c6 c4 35 b7 a1 7d 17 d8 3f 9c 95 02 3a 82 fe ef 62 d7 4e cf e6 5b 09 ee 87 6a c9 f8 70 bb 6a 05 63 67 6a da 36 1a 15 a2 a7 5b 74 f2 bd b1 33 4a 2b 2a 80 93 de 87 77 46 bb 3c 2a 93 b8 1f 29 33 78 cb c9 ab 6d aa 83 84 b3 3f e0 dc 43 b8 ce 15 18 46 d9 9b 7d e4 2c e8 3b 93 a3 07 f9 39 45 86 99 65 3d 2b 4f bf 77 6d 4c 39 b0 f1 ea b1 b5 68 2c 92 20 f7 d3 92 22 f4 7d df 06 01 01 00 a7 6b 9e 1f a9 61 d6 00 75 3e 8c be 92 37 4a a5 b1 57 c3 df 00 a8 55 f9 16 ea c0 1f 20 4c f2 b8 ff 70 f7 35 13 06 42 50 cf 3e 9b 01 d1 82 2a 69 41 46 a7 c6 47 d5 18 fc d7 ef 0d c3 cc 87 bd 1a 86 28 e2 ef 98 41 1d fd a1 a3 1a 7e 72 be e2 0f dd c2 f5 e6 06 34 87 84 b5 f0 f1 63 c2 d2 47 1b ee 2f 6e 52 74 2b ae 2f af f2 21 37 c9 df cb bb 47 a8 58 0b 6e 72 a8 1b 03 a3 a9 08 b1 15 8a 6c 6d a4 b6 01 02 2c 2f fd 14 a0 1f 65 57 d4 88 7b ce 94 1a 37 c0 49 7b 4e 49 fe 34 57 cb 97 19 45 43 5e b1 57 a8 08 61 88 8b 40 09 01 4a c5 fc 60 88 7a 52 de 9e 64 cc 78 a0 f2 11 4e d5 da bb 9b 0a 66 61 8b af e8 89 c6 ca 19 15 bb bf 20 c9 d3 d1 a8 f5 db 84 b8 cc 57 0a 6a 27 f4 54 35 2e 08 53 94 36 c4 8e f4 30 ea f3 c4 21 02 9c b8 ae a4 ee 80 ee 42 2c 42 33 9b 69 0b 7f b8 9d 5e 1c 85 16 03 03 00 04 0e 00 00 00
+RADIUS SRV: Reply to 127.0.0.1:41543
+RADIUS message: code=11 (Access-Challenge) identifier=3 length=1165
+   Attribute 24 (State) length=6
+      Value: 00000000
+   Attribute 79 (EAP-Message) length=255
+      Value: 01040457190184928576892df54e952ba0c7300a5914f300ed25a42a58bd3f7b252c0dedc0a8d95ce22442778871539f5c7c0e081f849f5780e739fee8f01528450b97bcec11fb615d44197b2dd776af054c4ab006b99acad1fd1f1447f26158747c960bf1ec178f6be65dc105bb8ab43ca847a993243c5ed9dc054d7c7469a12df04d5a3ac918fa7b3b34e84693800f023d6d4a8d32fd85af6fc80824fb34628936b7a22cfd7ceac240bb61268287aeaa0a307ad5c3da066241144a32320a8a9d24890fb25946dcfbe523454ed1cf0203010001a350304e301d0603551d0e041604149b5d7e3f596c3e6e5c254a2c6eeb70dbc93bf9c1301f0603551d
+   Attribute 79 (EAP-Message) length=255
+      Value: 230418301680149b5d7e3f596c3e6e5c254a2c6eeb70dbc93bf9c1300c0603551d13040530030101ff300d06092a864886f70d01010b0500038201010017350874585b246356098364766b8f0f65cab117c2f04838634444a98e6ce12c44d929d4a9f0005a119ecd5e4e375f6d37e9f6c1b6026dfed03ea4c10bb1eed10ec089d51fcbc4d0c682fe0998a2a5a585fc55482cf266a677aa91ce5f584c6859ecf0a4e2838d5dac28a9473a2206e68a78829f2f170770da0f8b98828d54a4ba09ee3d695039c6ca05e9b403a0bbc24101a182b69dd683dd87d77454631cefc35b84c1528a6e1600a46fc01e3c8930df23008fb22363f8f05d6adcced7eb43
+   Attribute 79 (EAP-Message) length=255
+      Value: f6a214a05a9c7dec7b5003ba2f3e105105c6e7d396c4f77c4191e2a38c4571794ea98061c3c19a04b72c2c9666f24de8aa458ba09cec7e74dab852118a481662160303020f0c00020b0080851d4781d5e20373d584079a934c05fc6ccccb833a608dba35791ec032c4cd3338398f05621f73a9ec3d3dde66d93012ba0ba294da45e6c47384654dc55c7decbf6c6a7185c8bd4c9da297774a9338ce87a1e8dd50c6e0d47801ee98bf8e860c77efa36ba443368f6c9962750ad92ba5ff72813f4d026d1ed65fc58281e2e19b00010200805dd1816af25dc6c435b7a17d17d83f9c95023a82feef62d74ecfe65b09ee876ac9f870bb6a0563676ada361a15
+   Attribute 79 (EAP-Message) length=255
+      Value: a2a75b74f2bdb1334a2b2a8093de877746bb3c2a93b81f293378cbc9ab6daa8384b33fe0dc43b8ce151846d99b7de42ce83b93a307f939458699653d2b4fbf776d4c39b0f1eab1b5682c9220f7d39222f47ddf06010100a76b9e1fa961d600753e8cbe92374aa5b157c3df00a855f916eac01f204cf2b8ff70f73513064250cf3e9b01d1822a694146a7c647d518fcd7ef0dc3cc87bd1a8628e2ef98411dfda1a31a7e72bee20fddc2f5e606348784b5f0f163c2d2471bee2f6e52742bae2faff22137c9dfcbbb47a8580b6e72a81b03a3a908b1158a6c6da4b601022c2ffd14a01f6557d4887bce941a37c0497b4e49fe3457cb971945435eb157a808
+   Attribute 79 (EAP-Message) length=101
+      Value: 61888b4009014ac5fc60887a52de9e64cc78a0f2114ed5dabb9b0a66618bafe889c6ca1915bbbf20c9d3d1a8f5db84b8cc570a6a27f454352e08539436c48ef430eaf3c421029cb8aea4ee80ee422c42339b690b7fb89d5e1c8516030300040e000000
+   Attribute 80 (Message-Authenticator) length=18
+      Value: 6dd58e3dc9f960868840d60bfc762d26
+RADIUS SRV: Received 314 bytes from 127.0.0.1:41543
+RADIUS SRV: Received data - hexdump(len=314): 01 04 01 3a e0 20 a7 89 3a 8b f0 54 3b cb 06 86 99 08 58 74 01 0b 61 6e 6f 6e 79 6d 6f 75 73 04 06 7f 00 00 01 1f 13 30 32 2d 30 30 2d 30 30 2d 30 30 2d 30 30 2d 30 31 0c 06 00 00 05 78 3d 06 00 00 00 13 4d 18 43 4f 4e 4e 45 43 54 20 31 31 4d 62 70 73 20 38 30 32 2e 31 31 62 4f c6 02 04 00 c4 19 01 16 03 03 00 86 10 00 00 82 00 80 54 86 4f c3 a7 64 6a ea f0 56 ba 19 3c 3f 3d d6 86 35 02 9c e1 3a 7f 5d 28 ff a0 ae 14 c9 df a8 43 22 51 f7 1a ef e2 b6 37 ff db 04 08 94 f2 e9 e6 0e cc 61 ca c1 ca 60 39 1f 14 89 62 76 96 11 50 5b 26 19 98 f5 c4 82 6f 0f b1 d7 14 c8 cf b7 55 3c 95 83 6a a7 75 53 32 33 9d fe 71 4e ab c9 99 2e ea 67 21 26 1e 8c c5 9a 47 2e d6 0b 42 15 77 d3 1e c1 3a 82 a9 17 5a a8 0d 95 72 59 1f 93 14 03 03 00 01 01 16 03 03 00 28 0f 0c 41 ed 0a 9c 84 d0 31 54 85 67 0a 57 12 97 b4 e4 87 b6 7b 46 99 26 99 78 19 0b cc c9 10 33 99 0b 40 45 1e 9f 29 2e 18 06 00 00 00 00 50 12 bd 41 07 75 22 a1 41 43 77 2f b1 65 ce 9a 9b 27
+RADIUS message: code=1 (Access-Request) identifier=4 length=314
+   Attribute 1 (User-Name) length=11
+      Value: 'anonymous'
+   Attribute 4 (NAS-IP-Address) length=6
+      Value: 127.0.0.1
+   Attribute 31 (Calling-Station-Id) length=19
+      Value: '02-00-00-00-00-01'
+   Attribute 12 (Framed-MTU) length=6
+      Value: 1400
+   Attribute 61 (NAS-Port-Type) length=6
+      Value: 19
+   Attribute 77 (Connect-Info) length=24
+      Value: 'CONNECT 11Mbps 802.11b'
+   Attribute 79 (EAP-Message) length=198
+      Value: 020400c41901160303008610000082008054864fc3a7646aeaf056ba193c3f3dd68635029ce13a7f5d28ffa0ae14c9dfa8432251f71aefe2b637ffdb040894f2e9e60ecc61cac1ca60391f148962769611505b261998f5c4826f0fb1d714c8cfb7553c95836aa7755332339dfe714eabc9992eea6721261e8cc59a472ed60b421577d31ec13a82a9175aa80d9572591f9314030300010116030300280f0c41ed0a9c84d0315485670a571297b4e487b67b4699269978190bccc91033990b40451e9f292e
+   Attribute 24 (State) length=6
+      Value: 00000000
+   Attribute 80 (Message-Authenticator) length=18
+      Value: bd41077522a14143772fb165ce9a9b27
+RADIUS SRV: Request for session 0x0
+RADIUS SRV: Received EAP data - hexdump(len=196): 02 04 00 c4 19 01 16 03 03 00 86 10 00 00 82 00 80 54 86 4f c3 a7 64 6a ea f0 56 ba 19 3c 3f 3d d6 86 35 02 9c e1 3a 7f 5d 28 ff a0 ae 14 c9 df a8 43 22 51 f7 1a ef e2 b6 37 ff db 04 08 94 f2 e9 e6 0e cc 61 ca c1 ca 60 39 1f 14 89 62 76 96 11 50 5b 26 19 98 f5 c4 82 6f 0f b1 d7 14 c8 cf b7 55 3c 95 83 6a a7 75 53 32 33 9d fe 71 4e ab c9 99 2e ea 67 21 26 1e 8c c5 9a 47 2e d6 0b 42 15 77 d3 1e c1 3a 82 a9 17 5a a8 0d 95 72 59 1f 93 14 03 03 00 01 01 16 03 03 00 28 0f 0c 41 ed 0a 9c 84 d0 31 54 85 67 0a 57 12 97 b4 e4 87 b6 7b 46 99 26 99 78 19 0b cc c9 10 33 99 0b 40 45 1e 9f 29 2e
+123456 SM_STEP(EAP) sm->EAP_state=2
+EAP: EAP entering state RECEIVED
+EAP: parseEapResp: rxResp=1 rxInitiate=0 respId=4 respMethod=25 respVendor=0 respVendorMethod=0
+123456 SM_STEP(EAP) sm->EAP_state=3
+EAP: EAP entering state INTEGRITY_CHECK
+123456 SM_STEP(EAP) sm->EAP_state=4
+EAP: EAP entering state METHOD_RESPONSE
+SSL: Received packet(len=196) - Flags 0x01
+SSL: Received packet: Flags 0x1 Message Length 0
+123456 eap_peap_process_msg() data->state=1
+OpenSSL: RX ver=0x0 content_type=256
+OpenSSL: Message - hexdump(len=5): [REMOVED]
+OpenSSL: RX ver=0x303 content_type=22
+OpenSSL: Message - hexdump(len=134): [REMOVED]
+SSL: (where=0x2001 ret=0x1)
+SSL: SSL_accept:unknown state
+SSL: (where=0x2001 ret=0x1)
+SSL: SSL_accept:unknown state
+OpenSSL: RX ver=0x0 content_type=256
+OpenSSL: Message - hexdump(len=5): [REMOVED]
+OpenSSL: RX ver=0x303 content_type=20
+OpenSSL: Message - hexdump(len=1): [REMOVED]
+OpenSSL: RX ver=0x0 content_type=256
+OpenSSL: Message - hexdump(len=5): [REMOVED]
+OpenSSL: RX ver=0x303 content_type=22
+OpenSSL: Message - hexdump(len=16): [REMOVED]
+SSL: (where=0x2001 ret=0x1)
+SSL: SSL_accept:unknown state
+OpenSSL: TX ver=0x0 content_type=256
+OpenSSL: Message - hexdump(len=5): [REMOVED]
+OpenSSL: TX ver=0x303 content_type=20
+OpenSSL: Message - hexdump(len=1): [REMOVED]
+SSL: (where=0x2001 ret=0x1)
+SSL: SSL_accept:unknown state
+OpenSSL: TX ver=0x0 content_type=256
+OpenSSL: Message - hexdump(len=5): [REMOVED]
+OpenSSL: TX ver=0x303 content_type=22
+OpenSSL: Message - hexdump(len=16): [REMOVED]
+SSL: (where=0x2001 ret=0x1)
+SSL: SSL_accept:unknown state
+SSL: (where=0x2001 ret=0x1)
+SSL: SSL_accept:unknown state
+SSL: (where=0x20 ret=0x1)
+SSL: (where=0x2002 ret=0x1)
+SSL: 51 bytes pending from ssl_out
+OpenSSL: Handshake finished - resumed=0
+123456 SM_STEP(EAP) sm->EAP_state=5
+EAP: EAP entering state METHOD_REQUEST
+EAP: building EAP-Request: Identifier 5
+123456 eap_peap_buildReq() data->state=1
+EAP-PEAP: Phase1 done, starting Phase2
+EAP-PEAP: PHASE1 -> PHASE2_START
+SSL: Generating Request
+SSL: Sending out 51 bytes (message sent completely)
+123456 SM_STEP(EAP) sm->EAP_state=6
+EAP: EAP entering state SEND_REQUEST
+123456 SM_STEP(EAP) sm->EAP_state=9
+EAP: EAP entering state IDLE
+EAP: retransmit timeout 3 seconds (from dynamic back off; retransCount=0)
+123456 SM_STEP(EAP) sm->EAP_state=2
+RADIUS SRV: EAP data from the state machine - hexdump(len=57): 01 05 00 39 19 01 14 03 03 00 01 01 16 03 03 00 28 aa 6a 1f b3 64 0d d7 08 26 cc b5 6c 6d 5b be 3e f5 11 2a 4c 37 e4 58 f2 39 70 84 0c 92 bf 4a 9c 9b 53 79 ed e2 ab b4 b6
+RADIUS SRV: Reply to 127.0.0.1:41543
+RADIUS message: code=11 (Access-Challenge) identifier=4 length=103
+   Attribute 24 (State) length=6
+      Value: 00000000
+   Attribute 79 (EAP-Message) length=59
+      Value: 0105003919011403030001011603030028aa6a1fb3640dd70826ccb56c6d5bbe3ef5112a4c37e458f23970840c92bf4a9c9b5379ede2abb4b6
+   Attribute 80 (Message-Authenticator) length=18
+      Value: 82f06b5694d21c5c29a8197cb8deab51
+RADIUS SRV: Received 124 bytes from 127.0.0.1:41543
+RADIUS SRV: Received data - hexdump(len=124): 01 05 00 7c 11 be 62 49 bd bc 48 b9 ab 9d cc 0a 25 02 ee 51 01 0b 61 6e 6f 6e 79 6d 6f 75 73 04 06 7f 00 00 01 1f 13 30 32 2d 30 30 2d 30 30 2d 30 30 2d 30 30 2d 30 31 0c 06 00 00 05 78 3d 06 00 00 00 13 4d 18 43 4f 4e 4e 45 43 54 20 31 31 4d 62 70 73 20 38 30 32 2e 31 31 62 4f 08 02 05 00 06 19 01 18 06 00 00 00 00 50 12 e4 2b 2d 5a 2a be ee 65 33 ac 30 48 ce 29 89 b8
+RADIUS message: code=1 (Access-Request) identifier=5 length=124
+   Attribute 1 (User-Name) length=11
+      Value: 'anonymous'
+   Attribute 4 (NAS-IP-Address) length=6
+      Value: 127.0.0.1
+   Attribute 31 (Calling-Station-Id) length=19
+      Value: '02-00-00-00-00-01'
+   Attribute 12 (Framed-MTU) length=6
+      Value: 1400
+   Attribute 61 (NAS-Port-Type) length=6
+      Value: 19
+   Attribute 77 (Connect-Info) length=24
+      Value: 'CONNECT 11Mbps 802.11b'
+   Attribute 79 (EAP-Message) length=8
+      Value: 020500061901
+   Attribute 24 (State) length=6
+      Value: 00000000
+   Attribute 80 (Message-Authenticator) length=18
+      Value: e42b2d5a2abeee6533ac3048ce2989b8
+RADIUS SRV: Request for session 0x0
+RADIUS SRV: Received EAP data - hexdump(len=6): 02 05 00 06 19 01
+123456 SM_STEP(EAP) sm->EAP_state=2
+EAP: EAP entering state RECEIVED
+EAP: parseEapResp: rxResp=1 rxInitiate=0 respId=5 respMethod=25 respVendor=0 respVendorMethod=0
+123456 SM_STEP(EAP) sm->EAP_state=3
+EAP: EAP entering state INTEGRITY_CHECK
+123456 SM_STEP(EAP) sm->EAP_state=4
+EAP: EAP entering state METHOD_RESPONSE
+SSL: Received packet(len=6) - Flags 0x01
+SSL: Received packet: Flags 0x1 Message Length 0
+123456 eap_peap_process_msg() data->state=3
+EAP-PEAP: PHASE2_START -> PHASE2_ID
+123456 SM_STEP(EAP) sm->EAP_state=5
+EAP: EAP entering state METHOD_REQUEST
+EAP: building EAP-Request: Identifier 6
+123456 eap_peap_buildReq() data->state=4
+EAP-PEAP: Encrypting Phase 2 data - hexdump(len=5): [REMOVED]
+OpenSSL: TX ver=0x0 content_type=256
+OpenSSL: Message - hexdump(len=5): [REMOVED]
+SSL: Generating Request
+SSL: Sending out 34 bytes (message sent completely)
+123456 SM_STEP(EAP) sm->EAP_state=6
+EAP: EAP entering state SEND_REQUEST
+123456 SM_STEP(EAP) sm->EAP_state=9
+EAP: EAP entering state IDLE
+EAP: retransmit timeout 3 seconds (from dynamic back off; retransCount=0)
+123456 SM_STEP(EAP) sm->EAP_state=2
+RADIUS SRV: EAP data from the state machine - hexdump(len=40): 01 06 00 28 19 01 17 03 03 00 1d aa 6a 1f b3 64 0d d7 09 5d 2e ee 4e 27 c1 bb 10 c0 19 df 37 aa bf 20 a2 42 78 49 e8 9e
+RADIUS SRV: Reply to 127.0.0.1:41543
+RADIUS message: code=11 (Access-Challenge) identifier=5 length=86
+   Attribute 24 (State) length=6
+      Value: 00000000
+   Attribute 79 (EAP-Message) length=42
+      Value: 010600281901170303001daa6a1fb3640dd7095d2eee4e27c1bb10c019df37aabf20a2427849e89e
+   Attribute 80 (Message-Authenticator) length=18
+      Value: 5da76df2e3f5461d3fdd15316c31836a
+RADIUS SRV: Received 166 bytes from 127.0.0.1:41543
+RADIUS SRV: Received data - hexdump(len=166): 01 06 00 a6 39 74 d0 9b 5e e7 f0 f6 e3 c9 1d b4 6c 7c 22 79 01 0b 61 6e 6f 6e 79 6d 6f 75 73 04 06 7f 00 00 01 1f 13 30 32 2d 30 30 2d 30 30 2d 30 30 2d 30 30 2d 30 31 0c 06 00 00 05 78 3d 06 00 00 00 13 4d 18 43 4f 4e 4e 45 43 54 20 31 31 4d 62 70 73 20 38 30 32 2e 31 31 62 4f 32 02 06 00 30 19 01 17 03 03 00 25 0f 0c 41 ed 0a 9c 84 d1 a5 34 96 b7 7e 1e 66 22 ae 32 ac 29 32 4b 1c 89 e1 95 72 d6 30 ec 34 3a 00 68 df c0 f3 18 06 00 00 00 00 50 12 2e a8 a8 91 c3 7a 7d 17 38 d4 07 1a ff cb c1 e6
+RADIUS message: code=1 (Access-Request) identifier=6 length=166
+   Attribute 1 (User-Name) length=11
+      Value: 'anonymous'
+   Attribute 4 (NAS-IP-Address) length=6
+      Value: 127.0.0.1
+   Attribute 31 (Calling-Station-Id) length=19
+      Value: '02-00-00-00-00-01'
+   Attribute 12 (Framed-MTU) length=6
+      Value: 1400
+   Attribute 61 (NAS-Port-Type) length=6
+      Value: 19
+   Attribute 77 (Connect-Info) length=24
+      Value: 'CONNECT 11Mbps 802.11b'
+   Attribute 79 (EAP-Message) length=50
+      Value: 02060030190117030300250f0c41ed0a9c84d1a53496b77e1e6622ae32ac29324b1c89e19572d630ec343a0068dfc0f3
+   Attribute 24 (State) length=6
+      Value: 00000000
+   Attribute 80 (Message-Authenticator) length=18
+      Value: 2ea8a891c37a7d1738d4071affcbc1e6
+RADIUS SRV: Request for session 0x0
+RADIUS SRV: Received EAP data - hexdump(len=48): 02 06 00 30 19 01 17 03 03 00 25 0f 0c 41 ed 0a 9c 84 d1 a5 34 96 b7 7e 1e 66 22 ae 32 ac 29 32 4b 1c 89 e1 95 72 d6 30 ec 34 3a 00 68 df c0 f3
+123456 SM_STEP(EAP) sm->EAP_state=2
+EAP: EAP entering state RECEIVED
+EAP: parseEapResp: rxResp=1 rxInitiate=0 respId=6 respMethod=25 respVendor=0 respVendorMethod=0
+123456 SM_STEP(EAP) sm->EAP_state=3
+EAP: EAP entering state INTEGRITY_CHECK
+123456 SM_STEP(EAP) sm->EAP_state=4
+EAP: EAP entering state METHOD_RESPONSE
+SSL: Received packet(len=48) - Flags 0x01
+SSL: Received packet: Flags 0x1 Message Length 0
+123456 eap_peap_process_msg() data->state=4
+EAP-PEAP: received 42 bytes encrypted data for Phase 2
+OpenSSL: RX ver=0x0 content_type=256
+OpenSSL: Message - hexdump(len=5): [REMOVED]
+EAP-PEAP: Decrypted Phase 2 EAP - hexdump(len=13): [REMOVED]
+EAP-PEAP: received Phase 2: code=2 identifier=6 length=13
+EAP-Identity: Peer identity - hexdump_ascii(len=8):
+     74 65 73 74 75 73 65 72                           testuser        
+RADIUS SRV: [0x0 127.0.0.1] EAP: EAP-Response/Identity 'testuser'
+EAP-PEAP: PHASE2_ID -> PHASE2_METHOD
+EAP-PEAP: try EAP vendor 0 type 0x1a
+123456 SM_STEP(EAP) sm->EAP_state=5
+EAP: EAP entering state METHOD_REQUEST
+EAP: building EAP-Request: Identifier 7
+123456 eap_peap_buildReq() data->state=5
+Get randomness: len=16 entropy=0
+EAP-MSCHAPV2: Challenge - hexdump(len=16): 38 9d 42 cf 25 9f 4d 52 7f c7 22 ad b8 14 54 9e
+EAP-PEAP: Encrypting Phase 2 data - hexdump(len=33): [REMOVED]
+OpenSSL: TX ver=0x0 content_type=256
+OpenSSL: Message - hexdump(len=5): [REMOVED]
+SSL: Generating Request
+SSL: Sending out 62 bytes (message sent completely)
+123456 SM_STEP(EAP) sm->EAP_state=6
+EAP: EAP entering state SEND_REQUEST
+123456 SM_STEP(EAP) sm->EAP_state=9
+EAP: EAP entering state IDLE
+EAP: retransmit timeout 3 seconds (from dynamic back off; retransCount=0)
+123456 SM_STEP(EAP) sm->EAP_state=2
+RADIUS SRV: EAP data from the state machine - hexdump(len=68): 01 07 00 44 19 01 17 03 03 00 39 aa 6a 1f b3 64 0d d7 0a df 22 12 f1 17 b0 78 e0 b0 8a ec 24 27 37 c1 1b 8f c1 3b e5 75 0b a8 66 d2 ae fb 12 48 d5 16 df d1 e1 fb 27 a2 2a 96 19 7d e2 a1 3e ef e7 98 1c 1b
+RADIUS SRV: Reply to 127.0.0.1:41543
+RADIUS message: code=11 (Access-Challenge) identifier=6 length=114
+   Attribute 24 (State) length=6
+      Value: 00000000
+   Attribute 79 (EAP-Message) length=70
+      Value: 0107004419011703030039aa6a1fb3640dd70adf2212f117b078e0b08aec242737c11b8fc13be5750ba866d2aefb1248d516dfd1e1fb27a22a96197de2a13eefe7981c1b
+   Attribute 80 (Message-Authenticator) length=18
+      Value: 9fb1fa606011cabf9f780dd65a039996
+RADIUS SRV: Received 220 bytes from 127.0.0.1:41543
+RADIUS SRV: Received data - hexdump(len=220): 01 07 00 dc 2b 76 b2 52 09 d9 e6 a8 f3 8f 92 f2 b3 6e d0 85 01 0b 61 6e 6f 6e 79 6d 6f 75 73 04 06 7f 00 00 01 1f 13 30 32 2d 30 30 2d 30 30 2d 30 30 2d 30 30 2d 30 31 0c 06 00 00 05 78 3d 06 00 00 00 13 4d 18 43 4f 4e 4e 45 43 54 20 31 31 4d 62 70 73 20 38 30 32 2e 31 31 62 4f 68 02 07 00 66 19 01 17 03 03 00 5b 0f 0c 41 ed 0a 9c 84 d2 5c c1 78 d1 a2 2c b1 b4 1b 92 0b 9e 61 5a c3 9e 35 32 04 42 79 aa 87 a6 9f 84 3a 47 8c 39 07 a7 ff cf ce 68 83 7c 08 42 86 2e 98 35 eb 77 ec 46 db ed 97 02 d1 f2 49 11 20 ad db dc 2f 0f b0 54 82 0f e1 73 b9 f7 42 f8 55 7c 3b db 45 20 0c 59 a2 85 bc 18 06 00 00 00 00 50 12 29 29 16 2f 48 98 80 8a fd e3 79 b7 a2 aa 3b 40
+RADIUS message: code=1 (Access-Request) identifier=7 length=220
+   Attribute 1 (User-Name) length=11
+      Value: 'anonymous'
+   Attribute 4 (NAS-IP-Address) length=6
+      Value: 127.0.0.1
+   Attribute 31 (Calling-Station-Id) length=19
+      Value: '02-00-00-00-00-01'
+   Attribute 12 (Framed-MTU) length=6
+      Value: 1400
+   Attribute 61 (NAS-Port-Type) length=6
+      Value: 19
+   Attribute 77 (Connect-Info) length=24
+      Value: 'CONNECT 11Mbps 802.11b'
+   Attribute 79 (EAP-Message) length=104
+      Value: 020700661901170303005b0f0c41ed0a9c84d25cc178d1a22cb1b41b920b9e615ac39e3532044279aa87a69f843a478c3907a7ffcfce68837c0842862e9835eb77ec46dbed9702d1f2491120addbdc2f0fb054820fe173b9f742f8557c3bdb45200c59a285bc
+   Attribute 24 (State) length=6
+      Value: 00000000
+   Attribute 80 (Message-Authenticator) length=18
+      Value: 2929162f4898808afde379b7a2aa3b40
+RADIUS SRV: Request for session 0x0
+RADIUS SRV: Received EAP data - hexdump(len=102): 02 07 00 66 19 01 17 03 03 00 5b 0f 0c 41 ed 0a 9c 84 d2 5c c1 78 d1 a2 2c b1 b4 1b 92 0b 9e 61 5a c3 9e 35 32 04 42 79 aa 87 a6 9f 84 3a 47 8c 39 07 a7 ff cf ce 68 83 7c 08 42 86 2e 98 35 eb 77 ec 46 db ed 97 02 d1 f2 49 11 20 ad db dc 2f 0f b0 54 82 0f e1 73 b9 f7 42 f8 55 7c 3b db 45 20 0c 59 a2 85 bc
+123456 SM_STEP(EAP) sm->EAP_state=2
+EAP: EAP entering state RECEIVED
+EAP: parseEapResp: rxResp=1 rxInitiate=0 respId=7 respMethod=25 respVendor=0 respVendorMethod=0
+123456 SM_STEP(EAP) sm->EAP_state=3
+EAP: EAP entering state INTEGRITY_CHECK
+123456 SM_STEP(EAP) sm->EAP_state=4
+EAP: EAP entering state METHOD_RESPONSE
+SSL: Received packet(len=102) - Flags 0x01
+SSL: Received packet: Flags 0x1 Message Length 0
+123456 eap_peap_process_msg() data->state=5
+EAP-PEAP: received 96 bytes encrypted data for Phase 2
+OpenSSL: RX ver=0x0 content_type=256
+OpenSSL: Message - hexdump(len=5): [REMOVED]
+EAP-PEAP: Decrypted Phase 2 EAP - hexdump(len=67): [REMOVED]
+EAP-PEAP: received Phase 2: code=2 identifier=7 length=67
+EAP-MSCHAPV2: Peer-Challenge - hexdump(len=16): 68 c1 77 48 97 2d f6 1c 0e 62 cc 3e 5e e0 c8 71
+EAP-MSCHAPV2: NT-Response - hexdump(len=24): 78 d5 5c 1f a9 2a 3f fc c1 e0 31 7b b6 f6 32 ec 5b 11 0d 14 1c d9 1d 77
+EAP-MSCHAPV2: Flags 0x0
+EAP-MSCHAPV2: Name - hexdump_ascii(len=8):
+     74 65 73 74 75 73 65 72                           testuser        
+RADIUS SRV: [0x0 127.0.0.1] EAP: EAP-MSCHAPV2 Name 'testuser'
+EAP-MSCHAPV2: User name - hexdump_ascii(len=8):
+     74 65 73 74 75 73 65 72                           testuser        
+EAP-MSCHAPV2: Correct NT-Response
+EAP-MSCHAPV2: Derived Master Key - hexdump(len=16): [REMOVED]
+123456 SM_STEP(EAP) sm->EAP_state=5
+EAP: EAP entering state METHOD_REQUEST
+EAP: building EAP-Request: Identifier 8
+123456 eap_peap_buildReq() data->state=5
+EAP-MSCHAPV2: Success Request Message - hexdump_ascii(len=47):
+     53 3d 32 41 42 46 39 44 44 30 36 46 46 39 46 30   S=2ABF9DD06FF9F0
+     32 30 44 35 30 43 36 33 44 38 32 44 34 42 34 32   20D50C63D82D4B42
+     46 45 41 41 39 30 37 31 41 30 20 4d 3d 4f 4b      FEAA9071A0 M=OK 
+EAP-PEAP: Encrypting Phase 2 data - hexdump(len=56): [REMOVED]
+OpenSSL: TX ver=0x0 content_type=256
+OpenSSL: Message - hexdump(len=5): [REMOVED]
+SSL: Generating Request
+SSL: Sending out 85 bytes (message sent completely)
+123456 SM_STEP(EAP) sm->EAP_state=6
+EAP: EAP entering state SEND_REQUEST
+123456 SM_STEP(EAP) sm->EAP_state=9
+EAP: EAP entering state IDLE
+EAP: retransmit timeout 3 seconds (from dynamic back off; retransCount=0)
+123456 SM_STEP(EAP) sm->EAP_state=2
+RADIUS SRV: EAP data from the state machine - hexdump(len=91): 01 08 00 5b 19 01 17 03 03 00 50 aa 6a 1f b3 64 0d d7 0b 0e 07 df 53 f9 46 a7 33 d6 46 2a a2 3a 9d c7 16 98 df 1b 66 fa 6a 2c 76 c4 fd 89 f0 99 e1 c7 c5 eb 9a 03 34 65 71 79 eb 5a 6f fe 3e 95 0f 90 ae 52 9f 8e 21 d1 cd 41 a2 96 f3 f3 35 03 e1 82 e3 3d 7f 2e eb cf e4 0c 17
+RADIUS SRV: Reply to 127.0.0.1:41543
+RADIUS message: code=11 (Access-Challenge) identifier=7 length=137
+   Attribute 24 (State) length=6
+      Value: 00000000
+   Attribute 79 (EAP-Message) length=93
+      Value: 0108005b19011703030050aa6a1fb3640dd70b0e07df53f946a733d6462aa23a9dc71698df1b66fa6a2c76c4fd89f099e1c7c5eb9a0334657179eb5a6ffe3e950f90ae529f8e21d1cd41a296f3f33503e182e33d7f2eebcfe40c17
+   Attribute 80 (Message-Authenticator) length=18
+      Value: 03e7e7f67bf9a706f5fc2540231f96d0
+RADIUS SRV: Received 159 bytes from 127.0.0.1:41543
+RADIUS SRV: Received data - hexdump(len=159): 01 08 00 9f 59 ab 6b 0a 49 ca 41 d7 56 69 65 8c 39 a9 bc 4e 01 0b 61 6e 6f 6e 79 6d 6f 75 73 04 06 7f 00 00 01 1f 13 30 32 2d 30 30 2d 30 30 2d 30 30 2d 30 30 2d 30 31 0c 06 00 00 05 78 3d 06 00 00 00 13 4d 18 43 4f 4e 4e 45 43 54 20 31 31 4d 62 70 73 20 38 30 32 2e 31 31 62 4f 2b 02 08 00 29 19 01 17 03 03 00 1e 0f 0c 41 ed 0a 9c 84 d3 81 75 5a 1e ab 63 4d 07 e7 08 6f f3 fd 8d 5b 77 f0 3f 48 03 cf 7e 18 06 00 00 00 00 50 12 1f 79 92 c8 02 91 a5 ac 7a 46 6c 4d 68 7e 9b 0a
+RADIUS message: code=1 (Access-Request) identifier=8 length=159
+   Attribute 1 (User-Name) length=11
+      Value: 'anonymous'
+   Attribute 4 (NAS-IP-Address) length=6
+      Value: 127.0.0.1
+   Attribute 31 (Calling-Station-Id) length=19
+      Value: '02-00-00-00-00-01'
+   Attribute 12 (Framed-MTU) length=6
+      Value: 1400
+   Attribute 61 (NAS-Port-Type) length=6
+      Value: 19
+   Attribute 77 (Connect-Info) length=24
+      Value: 'CONNECT 11Mbps 802.11b'
+   Attribute 79 (EAP-Message) length=43
+      Value: 020800291901170303001e0f0c41ed0a9c84d381755a1eab634d07e7086ff3fd8d5b77f03f4803cf7e
+   Attribute 24 (State) length=6
+      Value: 00000000
+   Attribute 80 (Message-Authenticator) length=18
+      Value: 1f7992c80291a5ac7a466c4d687e9b0a
+RADIUS SRV: Request for session 0x0
+RADIUS SRV: Received EAP data - hexdump(len=41): 02 08 00 29 19 01 17 03 03 00 1e 0f 0c 41 ed 0a 9c 84 d3 81 75 5a 1e ab 63 4d 07 e7 08 6f f3 fd 8d 5b 77 f0 3f 48 03 cf 7e
+123456 SM_STEP(EAP) sm->EAP_state=2
+EAP: EAP entering state RECEIVED
+EAP: parseEapResp: rxResp=1 rxInitiate=0 respId=8 respMethod=25 respVendor=0 respVendorMethod=0
+123456 SM_STEP(EAP) sm->EAP_state=3
+EAP: EAP entering state INTEGRITY_CHECK
+123456 SM_STEP(EAP) sm->EAP_state=4
+EAP: EAP entering state METHOD_RESPONSE
+SSL: Received packet(len=41) - Flags 0x01
+SSL: Received packet: Flags 0x1 Message Length 0
+123456 eap_peap_process_msg() data->state=5
+EAP-PEAP: received 35 bytes encrypted data for Phase 2
+OpenSSL: RX ver=0x0 content_type=256
+OpenSSL: Message - hexdump(len=5): [REMOVED]
+EAP-PEAP: Decrypted Phase 2 EAP - hexdump(len=6): [REMOVED]
+EAP-PEAP: received Phase 2: code=2 identifier=8 length=6
+EAP-MSCHAPV2: Received Success Response - authentication completed successfully
+EAP-MSCHAPV2: Derived key - hexdump(len=32): [REMOVED]
+EAP-PEAP: PHASE2_METHOD -> SUCCESS_REQ
+123456 SM_STEP(EAP) sm->EAP_state=5
+EAP: EAP entering state METHOD_REQUEST
+EAP: building EAP-Request: Identifier 9
+123456 eap_peap_buildReq() data->state=8
+EAP-PEAP: Encrypting Phase 2 data - hexdump(len=4): [REMOVED]
+OpenSSL: TX ver=0x0 content_type=256
+OpenSSL: Message - hexdump(len=5): [REMOVED]
+SSL: Generating Request
+SSL: Sending out 33 bytes (message sent completely)
+123456 SM_STEP(EAP) sm->EAP_state=6
+EAP: EAP entering state SEND_REQUEST
+123456 SM_STEP(EAP) sm->EAP_state=9
+EAP: EAP entering state IDLE
+EAP: retransmit timeout 3 seconds (from dynamic back off; retransCount=0)
+123456 SM_STEP(EAP) sm->EAP_state=2
+RADIUS SRV: EAP data from the state machine - hexdump(len=39): 01 09 00 27 19 01 17 03 03 00 1c aa 6a 1f b3 64 0d d7 0c c3 32 34 bc c0 54 19 dc e9 b3 ff b9 40 93 a1 2e 9e b1 16 0e
+RADIUS SRV: Reply to 127.0.0.1:41543
+RADIUS message: code=11 (Access-Challenge) identifier=8 length=85
+   Attribute 24 (State) length=6
+      Value: 00000000
+   Attribute 79 (EAP-Message) length=41
+      Value: 010900271901170303001caa6a1fb3640dd70cc33234bcc05419dce9b3ffb94093a12e9eb1160e
+   Attribute 80 (Message-Authenticator) length=18
+      Value: d01ea3f6933895ff757100a4d8d33395
+RADIUS SRV: Received 124 bytes from 127.0.0.1:41543
+RADIUS SRV: Received data - hexdump(len=124): 01 09 00 7c 18 96 86 cf 45 58 4c 52 42 8f 70 5e ae 56 a5 98 01 0b 61 6e 6f 6e 79 6d 6f 75 73 04 06 7f 00 00 01 1f 13 30 32 2d 30 30 2d 30 30 2d 30 30 2d 30 30 2d 30 31 0c 06 00 00 05 78 3d 06 00 00 00 13 4d 18 43 4f 4e 4e 45 43 54 20 31 31 4d 62 70 73 20 38 30 32 2e 31 31 62 4f 08 02 09 00 06 19 01 18 06 00 00 00 00 50 12 78 23 5b 47 b0 87 dd cb 78 b3 76 ef f3 27 c1 fd
+RADIUS message: code=1 (Access-Request) identifier=9 length=124
+   Attribute 1 (User-Name) length=11
+      Value: 'anonymous'
+   Attribute 4 (NAS-IP-Address) length=6
+      Value: 127.0.0.1
+   Attribute 31 (Calling-Station-Id) length=19
+      Value: '02-00-00-00-00-01'
+   Attribute 12 (Framed-MTU) length=6
+      Value: 1400
+   Attribute 61 (NAS-Port-Type) length=6
+      Value: 19
+   Attribute 77 (Connect-Info) length=24
+      Value: 'CONNECT 11Mbps 802.11b'
+   Attribute 79 (EAP-Message) length=8
+      Value: 020900061901
+   Attribute 24 (State) length=6
+      Value: 00000000
+   Attribute 80 (Message-Authenticator) length=18
+      Value: 78235b47b087ddcb78b376eff327c1fd
+RADIUS SRV: Request for session 0x0
+RADIUS SRV: Received EAP data - hexdump(len=6): 02 09 00 06 19 01
+123456 SM_STEP(EAP) sm->EAP_state=2
+EAP: EAP entering state RECEIVED
+EAP: parseEapResp: rxResp=1 rxInitiate=0 respId=9 respMethod=25 respVendor=0 respVendorMethod=0
+123456 SM_STEP(EAP) sm->EAP_state=3
+EAP: EAP entering state INTEGRITY_CHECK
+123456 SM_STEP(EAP) sm->EAP_state=4
+EAP: EAP entering state METHOD_RESPONSE
+SSL: Received packet(len=6) - Flags 0x01
+SSL: Received packet: Flags 0x1 Message Length 0
+123456 eap_peap_process_msg() data->state=8
+EAP-PEAP: SUCCESS_REQ -> SUCCESS
+OpenSSL: Using internal PRF
+EAP-PEAP: Derived key - hexdump(len=64): fa ff c1 eb 16 a9 5e 32 aa 65 00 cb 15 bd c3 14 5a ce 1e 5a 4b e0 5c a8 e6 07 32 4b e0 3a 1a 6e 84 03 19 35 ce bc 99 c5 39 33 17 16 1c 2f a9 d1 6f e9 42 6f 9c 68 47 ca 9f b7 9b b4 fd 24 43 d6
+EAP: Session-Id - hexdump(len=65): 19 3e b3 b9 71 50 48 de 16 4d a5 fb f8 2b de e3 f3 68 7d 55 2a 7e 77 bc 98 22 b1 0e 79 8f f6 cc c1 3d 26 3a 68 f3 db d8 4b da 3c a3 30 ed 53 a2 15 55 20 20 3c d0 94 30 6d ed f5 27 7a a8 42 37 b6
+123456 SM_STEP(EAP) sm->EAP_state=5
+EAP: EAP entering state SELECT_ACTION
+EAP: getDecision: method succeeded -> SUCCESS
+123456 SM_STEP(EAP) sm->EAP_state=8
+EAP: EAP entering state SUCCESS
+EAP: Building EAP-Success (id=9)
+eth0: CTRL-EVENT-EAP-SUCCESS 00:00:00:00:00:00
+123456 SM_STEP(EAP) sm->EAP_state=13
+RADIUS SRV: EAP data from the state machine - hexdump(len=4): 03 09 00 04
+RADIUS SRV: [0x0 127.0.0.1] EAP authentication succeeded
+RADIUS SRV: Reply to 127.0.0.1:41543
+RADIUS message: code=2 (Access-Accept) identifier=9 length=160
+   Attribute 79 (EAP-Message) length=6
+      Value: 03090004
+   Attribute 26 (Vendor-Specific) length=58
+      Value: 000001371034c5672c44eafd6bd531de7dd380fd731dbb3d48535117e852be0c8f442866e05168adda93f0c36a8011c76370a3b33b8cb164
+   Attribute 26 (Vendor-Specific) length=58
+      Value: 000001371134c56685aff13767e3eba9701418c492a450b63af01c1940d630a10558ffb8eb9edf3fd45e7dc963569c78b7300f1720963cf4
+   Attribute 80 (Message-Authenticator) length=18
+      Value: 3d28d0397efa0cdea8afb6b7e1be803f
+RADIUS SRV: [0x0 127.0.0.1] Sending Access-Accept
+RADIUS SRV: Removing completed session 0x0 after timeout
