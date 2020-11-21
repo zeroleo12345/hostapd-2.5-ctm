@@ -263,3 +263,8 @@ SM_STEP(EAP)	# SM_STEP_RUN(EAP)  -> 定义方法: static void sm_EAP_Step(struct
 			break;
 	}
 }
+
+
+# src/eap_server/eap_server.c
+SM_STATE(EAP, PICK_UP_METHOD)       # 由状态 EAP_INITIALIZE 来到 PICK_UP_METHOD
+    sm->m = eap_server_get_eap_method(EAP_VENDOR_IETF, sm->currentMethod);     # 从全局变量 eap_methods 列表中取得相应的认证函数

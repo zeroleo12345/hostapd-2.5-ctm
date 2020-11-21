@@ -20,12 +20,12 @@ SM_STATE(EAP, METHOD_REQUEST)
 	sm->currentId = eap_sm_nextId(sm, sm->currentId);
 	wpa_printf(MSG_DEBUG, "EAP: building EAP-Request: Identifier %d", sm->currentId);
 	sm->lastId = sm->currentId;
-	sm->eap_if.eapReqData = sm->m->buildReq(sm, sm->eap_method_priv, sm->currentId);    # phase1 应答, 调用下方 eap_peap_buildReq
+	sm->eap_if.eapReqData = sm->m->buildReq(sm, sm->eap_method_priv, sm->currentId);    # phase1 调用buildReq() -> 指向注册函数 eap_peap_buildReq()
 }
 
 
 # src/eap_server/eap_server_peap.c
-static struct wpabuf * eap_peap_buildReq(struct eap_sm *sm, void *priv, u8 id)      # 被注册的 buildReq 方法
+static struct wpabuf * eap_peap_buildReq(struct eap_sm *sm, void *priv, u8 id)      # 被注册 eap->buildReq = eap_peap_buildReq;
 {
 	if (data->ssl.state == FRAG_ACK) {
 		return eap_server_tls_build_ack(id, EAP_TYPE_PEAP, data->peap_version);		# 处理客户端发过来分包. 实际用不上!!!
@@ -48,7 +48,7 @@ static struct wpabuf * eap_peap_buildReq(struct eap_sm *sm, void *priv, u8 id)  
 			break;
 		case PHASE2_ID:
 		case PHASE2_METHOD:
-			data->ssl.tls_out = eap_peap_build_phase2_req(sm, data, id);	# peap外层流程调用phase2
+			data->ssl.tls_out = eap_peap_build_phase2_req(sm, data, id);	# 调用下方. phase1(PEAP) 调用 phase2(GTC, MSCHAPV2)
 			break;
 		case PHASE2_TLV:
 			data->ssl.tls_out = eap_peap_build_phase2_tlv(sm, data, id);
@@ -68,7 +68,7 @@ static struct wpabuf * eap_peap_buildReq(struct eap_sm *sm, void *priv, u8 id)  
 # src/eap_server/eap_server_peap.c
 static struct wpabuf * eap_peap_build_phase2_req(struct eap_sm *sm, struct eap_peap_data *data, u8 id)
 {
-	buf = data->phase2_method->buildReq(sm, data->phase2_priv, id);     # 调用 phase2 处理函数, 获取应答报文. 例如调用 eap_gtc_buildReq() 或 eap_mschapv2_buildReq()
+	buf = data->phase2_method->buildReq(sm, data->phase2_priv, id);     # phase2 调用buildReq(), 获取应答报文. -> 指向注册函数 eap_gtc_buildReq() 或 eap_mschapv2_buildReq()
 
 	encr_req = eap_server_tls_encrypt(sm, &data->ssl, &msgbuf);     # 加密
 }
