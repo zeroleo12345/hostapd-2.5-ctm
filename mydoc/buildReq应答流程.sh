@@ -8,7 +8,7 @@ EAP-PEAP: SUCCESS_REQ -> SUCCESS
 
 
 # src/eap_server/eap_server.c
-SM_STATE(EAP, METHOD_REQUEST)
+SM_STATE(EAP, METHOD_REQUEST)		# 在主流程中!!!
 {
 	SM_ENTRY(EAP, METHOD_REQUEST);
 

@@ -39,7 +39,7 @@ int eap_server_peap_register(void)
 	eap->isSuccess = eap_peap_isSuccess;
 	eap->getSessionId = eap_peap_get_session_id;
 
-	ret = eap_server_method_register(eap);
+	ret = eap_server_method_register(eap);		# 调用下方注册
 	if (ret)
 		eap_server_method_free(eap);
 	return ret;

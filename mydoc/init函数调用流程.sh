@@ -26,7 +26,7 @@ static void * eap_peap_init(struct eap_sm *sm)		# 被注册 eap->init = eap_peap
 	}
 }
 
-
+# src/eap_erver/eap_server_tls_common.c
 int eap_server_tls_ssl_init(struct eap_sm *sm, struct eap_ssl_data *data, int verify_peer, int eap_type)
 {
 	data->conn = tls_connection_init(sm->ssl_ctx);
