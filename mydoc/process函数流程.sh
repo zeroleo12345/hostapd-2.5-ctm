@@ -1,5 +1,13 @@
 process() 主要是 调动 eap_peap_phase2_init() 初始化, 以及设置 state 变更 
 
+# eap_peap_process_msg 状态流转:
+data->state = 1
+data->state = 1
+data->state = 3
+data->state = 4
+data->state = 5
+data->state = 5
+data->state = 8
 
 # src/eap_server/eap_server.c
 SM_STATE(EAP, METHOD_RESPONSE)      # 在主流程中!!!
@@ -25,24 +33,24 @@ static void eap_peap_process_msg(struct eap_sm *sm, void *priv,
 {
     wpa_printf(MSG_INFO, "123456 eap_peap_process_msg() data->state=%d", data->state);
 	switch (data->state) {
-	case PHASE1:
+	case PHASE1:    # 枚举值: 1
 		if (eap_server_tls_phase1(sm, &data->ssl) < 0) {
 			eap_peap_state(data, FAILURE);
 			break;
 		}
 		break;
-	case PHASE2_START:
+	case PHASE2_START:  # 枚举值: 3
 		eap_peap_state(data, PHASE2_ID);
 		eap_peap_phase2_init(sm, data, EAP_VENDOR_IETF, EAP_TYPE_IDENTITY);
 		break;
 	case PHASE1_ID2:
-	case PHASE2_ID:
-	case PHASE2_METHOD:
+	case PHASE2_ID:     # 枚举值: 4
+	case PHASE2_METHOD: # 枚举值: 5
 	case PHASE2_SOH:
 	case PHASE2_TLV:
 		eap_peap_process_phase2(sm, data, respData, data->ssl.tls_in);      # 调用下面膜
 		break;
-	case SUCCESS_REQ:
+	case SUCCESS_REQ:   # 枚举值: 8
 		eap_peap_state(data, SUCCESS);
 		eap_peap_valid_session(sm, data);
 		break;
@@ -95,30 +103,31 @@ static void eap_peap_process_phase2_response(struct eap_sm *sm, struct eap_peap_
 	}
 
 	switch (data->state) {
-	case PHASE1_ID2:
-	case PHASE2_ID:
-	case PHASE2_SOH:
-		if (eap_user_get(sm, sm->identity, sm->identity_len, 1) != 0) {
-			wpa_hexdump_ascii(MSG_DEBUG, "EAP_PEAP: Phase2 Identity not found in the user database", sm->identity, sm->identity_len);
-			eap_peap_req_failure(sm, data);
-			next_vendor = EAP_VENDOR_IETF;
-			next_type = EAP_TYPE_NONE;
-			break;
-		}
+        case PHASE1_ID2:
+        case PHASE2_ID:
+        case PHASE2_SOH:
+            if (eap_user_get(sm, sm->identity, sm->identity_len, 1) != 0) {
+                wpa_hexdump_ascii(MSG_DEBUG, "EAP_PEAP: Phase2 Identity not found in the user database", sm->identity, sm->identity_len);
+                eap_peap_req_failure(sm, data);
+                next_vendor = EAP_VENDOR_IETF;
+                next_type = EAP_TYPE_NONE;
+                break;
+            }
 
-		eap_peap_state(data, PHASE2_METHOD);
-		next_vendor = sm->user->methods[0].vendor;
-		next_type = sm->user->methods[0].method;
-		sm->user_eap_method_index = 1;
-		wpa_printf(MSG_DEBUG, "EAP-PEAP: try EAP vendor %d type 0x%x", next_vendor, next_type);
-		break;
-	case PHASE2_METHOD:
-		eap_peap_req_success(sm, data);
-		next_vendor = EAP_VENDOR_IETF;
-		next_type = EAP_TYPE_NONE;
-		break;
-	case FAILURE:
-		break;
+            eap_peap_state(data, PHASE2_METHOD);
+            next_vendor = sm->user->methods[0].vendor;
+            next_type = sm->user->methods[0].method;
+            sm->user_eap_method_index = 1;
+            wpa_printf(MSG_DEBUG, "EAP-PEAP: try EAP vendor %d type 0x%x", next_vendor, next_type);
+            break;
+        case PHASE2_METHOD:
+            eap_peap_req_success(sm, data);
+            next_vendor = EAP_VENDOR_IETF;
+            next_type = EAP_TYPE_NONE;
+            break;
+        case FAILURE:
+            break;
+    }
 
 	eap_peap_phase2_init(sm, data, next_vendor, next_type);
 }

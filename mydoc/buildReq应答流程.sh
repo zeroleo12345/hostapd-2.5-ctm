@@ -1,10 +1,11 @@
+# eap_peap_buildReq() 状态流转
 EAP: getDecision: another method available -> CONTINUE
-EAP-PEAP: START -> PHASE1
-EAP-PEAP: PHASE1 -> PHASE2_START
-EAP-PEAP: PHASE2_START -> PHASE2_ID
-EAP-PEAP: PHASE2_ID -> PHASE2_METHOD
-EAP-PEAP: PHASE2_METHOD -> SUCCESS_REQ
-EAP-PEAP: SUCCESS_REQ -> SUCCESS
+EAP-PEAP: START -> PHASE1					# 1报文: eap_peap_start.
+EAP-PEAP: PHASE1 -> PHASE2_START			# 2和3报文: server_hello和change_cipher_spec.
+EAP-PEAP: PHASE2_START -> PHASE2_ID			# 4报文: peap_identity.
+EAP-PEAP: PHASE2_ID -> PHASE2_METHOD		# 5报文: peap_password.
+EAP-PEAP: PHASE2_METHOD -> SUCCESS_REQ		# 6报文: eap_peap_success.
+EAP-PEAP: SUCCESS_REQ -> SUCCESS			# 7报文: access_accept.
 
 
 # src/eap_server/eap_server.c
@@ -36,25 +37,24 @@ static struct wpabuf * eap_peap_buildReq(struct eap_sm *sm, void *priv, u8 id)  
 	}
 
 	switch (data->state) {
-		case START:		# 0
-			return eap_peap_build_start(sm, data, id);
-		case PHASE1:	# 1
-		case PHASE1_ID2:
+		case START:		# 枚举值: 0
+			return eap_peap_build_start(sm, data, id);		# 1报文: eap_peap_start. 这里参数有 peap_version 区别
+		case PHASE1:	# 枚举值: 1
+		case PHASE1_ID2:									# 2和3报文: server_hello和change_cipher_spec
 			if (tls_connection_established(sm->ssl_ctx, data->ssl.conn)) {
-				wpa_printf(MSG_DEBUG, "EAP-PEAP: Phase1 done, "
-					"starting Phase2");
+				wpa_printf(MSG_DEBUG, "EAP-PEAP: Phase1 done, starting Phase2");
 				eap_peap_state(data, PHASE2_START);
 			}
 			break;
-		case PHASE2_ID:			# 4
-		case PHASE2_METHOD:		# 5
-			data->ssl.tls_out = eap_peap_build_phase2_req(sm, data, id);	# 调用下方. phase1(PEAP) 调用 phase2(GTC, MSCHAPV2)
+		case PHASE2_ID:			# 枚举值: 4
+		case PHASE2_METHOD:		# 枚举值: 5
+			data->ssl.tls_out = eap_peap_build_phase2_req(sm, data, id);	# 4和5报文: peap_identity, peap_password. 调用下方. phase1(PEAP) 调用 phase2(GTC, MSCHAPV2)
 			break;
 		case PHASE2_TLV:
 			data->ssl.tls_out = eap_peap_build_phase2_tlv(sm, data, id);
 			break;
-		case SUCCESS_REQ:		# 8
-			data->ssl.tls_out = eap_peap_build_phase2_term(sm, data, id, 1);
+		case SUCCESS_REQ:		# 枚举值: 8
+			data->ssl.tls_out = eap_peap_build_phase2_term(sm, data, id, 1);	# 6报文: eap_peap_success.
 			break;
 		case FAILURE_REQ:
 			data->ssl.tls_out = eap_peap_build_phase2_term(sm, data, id, 0);
