@@ -32,6 +32,20 @@ enum {
     EAP_INITIATE_RECEIVED = 30
 } EAP_state;
 
+enum {
+    START, = 0 
+    PHASE1, = 1 
+    PHASE1_ID2, = 2 
+    PHASE2_START, = 3 
+    PHASE2_ID, = 4
+    PHASE2_METHOD, = 5 
+    PHASE2_SOH, = 6 
+    PHASE2_TLV, = 7 
+    SUCCESS_REQ, = 8 
+    FAILURE_REQ, = 9 
+    SUCCESS, = 10
+    FAILURE = 11
+} state;
 
 SM_STEP(EAP) sm->EAP_state = 1
 SM_STEP(EAP) sm->EAP_state = 16

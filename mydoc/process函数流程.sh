@@ -1,3 +1,6 @@
+process() 主要是 调动 eap_peap_phase2_init() 初始化, 以及设置 state 变更 
+
+
 # src/eap_server/eap_server.c
 SM_STATE(EAP, METHOD_RESPONSE)      # 在主流程中!!!
 {
@@ -30,8 +33,7 @@ static void eap_peap_process_msg(struct eap_sm *sm, void *priv,
 		break;
 	case PHASE2_START:
 		eap_peap_state(data, PHASE2_ID);
-		eap_peap_phase2_init(sm, data, EAP_VENDOR_IETF,
-				     EAP_TYPE_IDENTITY);
+		eap_peap_phase2_init(sm, data, EAP_VENDOR_IETF, EAP_TYPE_IDENTITY);
 		break;
 	case PHASE1_ID2:
 	case PHASE2_ID:
@@ -60,9 +62,7 @@ static void eap_peap_process_phase2(struct eap_sm *sm, struct eap_peap_data *dat
 
 
 # src/eap_server/eap_server_peap.c
-static void eap_peap_process_phase2_response(struct eap_sm *sm,
-					     struct eap_peap_data *data,
-					     struct wpabuf *in_data)
+static void eap_peap_process_phase2_response(struct eap_sm *sm, struct eap_peap_data *data, struct wpabuf *in_data)
 {
 	if (data->state == PHASE2_TLV) {
 		eap_peap_process_phase2_tlv(sm, data, in_data);
@@ -99,10 +99,7 @@ static void eap_peap_process_phase2_response(struct eap_sm *sm,
 	case PHASE2_ID:
 	case PHASE2_SOH:
 		if (eap_user_get(sm, sm->identity, sm->identity_len, 1) != 0) {
-			wpa_hexdump_ascii(MSG_DEBUG, "EAP_PEAP: Phase2 "
-					  "Identity not found in the user "
-					  "database",
-					  sm->identity, sm->identity_len);
+			wpa_hexdump_ascii(MSG_DEBUG, "EAP_PEAP: Phase2 Identity not found in the user database", sm->identity, sm->identity_len);
 			eap_peap_req_failure(sm, data);
 			next_vendor = EAP_VENDOR_IETF;
 			next_type = EAP_TYPE_NONE;
@@ -113,8 +110,7 @@ static void eap_peap_process_phase2_response(struct eap_sm *sm,
 		next_vendor = sm->user->methods[0].vendor;
 		next_type = sm->user->methods[0].method;
 		sm->user_eap_method_index = 1;
-		wpa_printf(MSG_DEBUG, "EAP-PEAP: try EAP vendor %d type 0x%x",
-			   next_vendor, next_type);
+		wpa_printf(MSG_DEBUG, "EAP-PEAP: try EAP vendor %d type 0x%x", next_vendor, next_type);
 		break;
 	case PHASE2_METHOD:
 		eap_peap_req_success(sm, data);

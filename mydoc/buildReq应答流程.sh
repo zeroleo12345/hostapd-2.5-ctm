@@ -36,9 +36,9 @@ static struct wpabuf * eap_peap_buildReq(struct eap_sm *sm, void *priv, u8 id)  
 	}
 
 	switch (data->state) {
-		case START:
+		case START:		# 0
 			return eap_peap_build_start(sm, data, id);
-		case PHASE1:
+		case PHASE1:	# 1
 		case PHASE1_ID2:
 			if (tls_connection_established(sm->ssl_ctx, data->ssl.conn)) {
 				wpa_printf(MSG_DEBUG, "EAP-PEAP: Phase1 done, "
@@ -46,14 +46,14 @@ static struct wpabuf * eap_peap_buildReq(struct eap_sm *sm, void *priv, u8 id)  
 				eap_peap_state(data, PHASE2_START);
 			}
 			break;
-		case PHASE2_ID:
-		case PHASE2_METHOD:
+		case PHASE2_ID:			# 4
+		case PHASE2_METHOD:		# 5
 			data->ssl.tls_out = eap_peap_build_phase2_req(sm, data, id);	# 调用下方. phase1(PEAP) 调用 phase2(GTC, MSCHAPV2)
 			break;
 		case PHASE2_TLV:
 			data->ssl.tls_out = eap_peap_build_phase2_tlv(sm, data, id);
 			break;
-		case SUCCESS_REQ:
+		case SUCCESS_REQ:		# 8
 			data->ssl.tls_out = eap_peap_build_phase2_term(sm, data, id, 1);
 			break;
 		case FAILURE_REQ:
