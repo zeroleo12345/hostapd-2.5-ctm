@@ -7,3 +7,5 @@ hostapd/loader
 hostapd/test_hostapd
 .DS_Store
 .idea/
+CMakeLists.txt
+cmake-build-debug/
