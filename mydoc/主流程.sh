@@ -268,3 +268,40 @@ SM_STEP(EAP)	# SM_STEP_RUN(EAP)  -> 定义方法: static void sm_EAP_Step(struct
 # src/eap_server/eap_server.c
 SM_STATE(EAP, PICK_UP_METHOD)       # 由状态 EAP_INITIALIZE 来到 PICK_UP_METHOD
     sm->m = eap_server_get_eap_method(EAP_VENDOR_IETF, sm->currentMethod);     # 从全局变量 eap_methods 列表中取得相应的认证函数
+
+
+
+# 其他资料
+# RADIUS with MS-CHAPv2 Explanation
+	https://stackoverflow.com/questions/30344085/radius-with-ms-chapv2-explanation
+
+
+# Attributes for Support of MS-CHAP Version 2
+	https://www.ietf.org/rfc/rfc2548.txt
+
+
+struct eap_mschapv2_hdr {
+	u8 op_code; /* MSCHAPV2_OP_* */
+	u8 mschapv2_id; /* must be changed for challenges, but not for
+			 * success/failure */
+	u8 ms_length[2]; /* Note: misaligned; length - 5 */
+	/* followed by data */
+} STRUCT_PACKED;
+
+struct eap_hdr {
+	u8 code;
+	u8 identifier;
+	be16 length; /* including code and identifier; network byte order */
+	/* followed by length-4 octets of data */
+} STRUCT_PACKED;
+
+
+# mschapv2 challenge 报文内容
+eap_msg_alloc() 函数就是申请一块buffer, 装有EAP格式报文: code=REQUEST, Identity, Length, Type=EAP_TYPE_MSCHAPV2, Type-Data
+
+eap_start = EapPeapPacket(code=EapPeapPacket.CODE_EAP_REQUEST, id=session.next_eap_id, flag_start=1, flag_version=1)
+auth_challenge + server_id("hostapd")
+
+
+EAP-MSCHAPV2: Challenge - hexdump(len=16): 2d ae 52 bf 07 d0 de 7b 28 c4 d8 d9 8f 87 da 6a
+EAP-PEAP: Encrypting Phase 2 data - hexdump(len=33): EAP_CODE_REQUEST(01) + EAP_id(07) + 整个报文长度(00 21) + MSCHAPV2 Type枚举值(1a) + mschapv2_op_challenge(01) + 与EAP_id一致(07) + 长度(00 1c) + 随机数长度固定值(10) + 16位随机chanllenge(2d ae 52 bf 07 d0 de 7b 28 c4 d8 d9 8f 87 da 6a) + service_id(68 6f 73 74 61 70 64)
