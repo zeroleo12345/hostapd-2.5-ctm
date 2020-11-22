@@ -18,6 +18,12 @@ define SM_ENTRY(machine, state)		设置状态机当前状态
 	sm->machine ## _state = machine ## _ ## state;
 
 
+#
+define MSCHAPV2_OP_CHALLENGE 1
+define MSCHAPV2_OP_RESPONSE 2
+define MSCHAPV2_OP_SUCCESS 3
+define MSCHAPV2_OP_FAILURE 4
+
 
 ####################
 typedef enum {
