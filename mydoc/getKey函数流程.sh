@@ -14,12 +14,29 @@ SM_STATE(EAP, METHOD_RESPONSE)
 # src/eap_server/eap_server_peap.c
 static void eap_peap_process_phase2_response(struct eap_sm *sm, struct eap_peap_data *data, struct wpabuf *in_data)
 {
-    data->phase2_key = data->phase2_method->getKey(sm, data->phase2_priv, &data->phase2_key_len);
+    data->phase2_key = data->phase2_method->getKey(sm, data->phase2_priv, &data->phase2_key_len);   # 提供下面的函数使用
 }
 
 
 # src/eap_server/eap_server_peap.c
-static u8 * eap_peap_getKey(struct eap_sm *sm, void *priv, size_t *len)
+static void eap_peap_get_isk(struct eap_peap_data *data, u8 *isk, size_t isk_len)       # 用 phase2_key 的地方, 但调用者 eap_peap_derive_cmk() 根据日志分析, 并没有触发! 所以 phase2 的 getKey() 没用!
+{
+	size_t key_len;
+
+	os_memset(isk, 0, isk_len);
+	if (data->phase2_key == NULL)
+		return;
+
+	key_len = data->phase2_key_len;
+	if (key_len > isk_len)
+		key_len = isk_len;
+	os_memcpy(isk, data->phase2_key, key_len);
+}
+
+
+
+# src/eap_server/eap_server_peap.c
+static u8 * eap_peap_getKey(struct eap_sm *sm, void *priv, size_t *len)     # peap方法
 {
 	struct eap_peap_data *data = priv;
 	u8 *eapKeyData;
@@ -66,4 +83,27 @@ static u8 * eap_peap_getKey(struct eap_sm *sm, void *priv, size_t *len)
 	}
 
 	return eapKeyData;
+}
+
+
+# src/eap_server/eap_server_mschapv2.c
+static u8 * eap_mschapv2_getKey(struct eap_sm *sm, void *priv, size_t *len)     # mschapv2方法
+{
+	struct eap_mschapv2_data *data = priv;
+	u8 *key;
+
+	if (data->state != SUCCESS || !data->master_key_valid)
+		return NULL;
+
+	*len = 2 * MSCHAPV2_KEY_LEN;
+	key = os_malloc(*len);
+	if (key == NULL)
+		return NULL;
+	/* MSK = server MS-MPPE-Recv-Key | MS-MPPE-Send-Key */
+	get_asymetric_start_key(data->master_key, key, MSCHAPV2_KEY_LEN, 0, 1);
+	get_asymetric_start_key(data->master_key, key + MSCHAPV2_KEY_LEN,
+				MSCHAPV2_KEY_LEN, 1, 1);
+	wpa_hexdump_key(MSG_DEBUG, "EAP-MSCHAPV2: Derived key", key, *len);
+
+	return key;
 }
