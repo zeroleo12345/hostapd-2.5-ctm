@@ -1,4 +1,4 @@
-process() 主要是 调动 eap_peap_phase2_init() 初始化, 以及设置 state 变更 
+process() 主要是 调动 eap_peap_phase2_init() 选择下一步相应处理函数: identity -> gtc(mschapv2), 以及设置 state 变更 
 
 # eap_peap_process_msg 状态流转:
 data->state = 1
@@ -41,7 +41,7 @@ static void eap_peap_process_msg(struct eap_sm *sm, void *priv,
 		break;
 	case PHASE2_START:  # 枚举值: 3
 		eap_peap_state(data, PHASE2_ID);
-		eap_peap_phase2_init(sm, data, EAP_VENDOR_IETF, EAP_TYPE_IDENTITY);
+		eap_peap_phase2_init(sm, data, EAP_VENDOR_IETF, EAP_TYPE_IDENTITY);     # 这个阶段先注册phase2处理函数为 eap_identity_buildReq()
 		break;
 	case PHASE1_ID2:
 	case PHASE2_ID:     # 枚举值: 4
