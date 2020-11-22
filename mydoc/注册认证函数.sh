@@ -22,12 +22,8 @@ int eap_server_register_methods(void)
 int eap_server_peap_register(void)
 {
 	struct eap_method *eap;
-	int ret;
-
 	eap = eap_server_method_alloc(EAP_SERVER_METHOD_INTERFACE_VERSION,
 				      EAP_VENDOR_IETF, EAP_TYPE_PEAP, "PEAP");		只有 "PEAP", "GTC", "MSCHAPV2", 而没有 "EAP". 处理顺序, 先用 phase1 处理函数 "PEAP" , 再用 phase2 处理函数 "GTC" 或 "MSCHAPV2"
-	if (eap == NULL)
-		return -1;
 
 	eap->init = eap_peap_init;
 	eap->reset = eap_peap_reset;
@@ -40,9 +36,6 @@ int eap_server_peap_register(void)
 	eap->getSessionId = eap_peap_get_session_id;
 
 	ret = eap_server_method_register(eap);		# 调用下方注册
-	if (ret)
-		eap_server_method_free(eap);
-	return ret;
 }
 
 
@@ -84,4 +77,44 @@ const struct eap_method * eap_server_get_eap_method(int vendor, EapType method) 
 			return m;
 	}
 	return NULL;
+}
+
+
+
+###########
+int eap_server_gtc_register(void)
+{
+	struct eap_method *eap;
+	eap = eap_server_method_alloc(EAP_SERVER_METHOD_INTERFACE_VERSION,
+				      EAP_VENDOR_IETF, EAP_TYPE_GTC, "GTC");
+
+	eap->init = eap_gtc_init;
+	eap->reset = eap_gtc_reset;
+	eap->buildReq = eap_gtc_buildReq;
+	eap->check = eap_gtc_check;
+	eap->process = eap_gtc_process;
+	eap->isDone = eap_gtc_isDone;
+	eap->isSuccess = eap_gtc_isSuccess;
+
+	ret = eap_server_method_register(eap);
+}
+
+
+int eap_server_mschapv2_register(void)
+{
+	struct eap_method *eap;
+	eap = eap_server_method_alloc(EAP_SERVER_METHOD_INTERFACE_VERSION,
+				      EAP_VENDOR_IETF, EAP_TYPE_MSCHAPV2,
+				      "MSCHAPV2");
+
+	eap->init = eap_mschapv2_init;
+	eap->reset = eap_mschapv2_reset;
+	eap->buildReq = eap_mschapv2_buildReq;
+	eap->check = eap_mschapv2_check;
+	eap->process = eap_mschapv2_process;
+	eap->isDone = eap_mschapv2_isDone;
+	eap->getKey = eap_mschapv2_getKey;
+	eap->isSuccess = eap_mschapv2_isSuccess;
+
+	ret = eap_server_method_register(eap);
 }
