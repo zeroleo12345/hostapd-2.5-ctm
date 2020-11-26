@@ -51,7 +51,7 @@ struct eap_mschapv2_data {
 	u8 resp_mschapv2_id;
 	u8 master_key[16];
 	int master_key_valid;
-    int auth_challenge_from_tls;
+	int auth_challenge_from_tls;
 };
 
 
