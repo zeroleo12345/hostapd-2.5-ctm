@@ -320,7 +320,7 @@ EAP-MSCHAPV2: Success Request Message - hexdump_ascii(len=47):
      53 3d 37 43 36 39 38 34 37 38 39 44 34 39 44 30   S=7C6984789D49D0
      38 32 33 34 35 45 35 31 43 44 45 38 46 35 36 30   82345E51CDE8F560
      33 42 41 44 31 43 34 34 37 33 20 4d 3d 4f 4b      3BAD1C4473 M=OK
-EAP-PEAP: Encrypting Phase 2 data - hexdump(len=56): EAP_CODE_REQUEST(01) + EAP_id(08) + 整个报文长度(00 38) + EAP_TYPE_MSCHAPV2报文(1a) + MSCHAPV2_OP_SUCCESS(03) + EAP_id减一(07) + mschap报文长度(00 33) + S=(53 3d) + 40个字符:计算出来的哈希值再换成hex大写(37 43 36 39 38 34 37 38 39 44 34 39 44 30 38 32 33 34 35 45 35 31 43 44 45 38 46 35 36 30 33 42 41 44 31 43 34 34 37 33) + 空格(20) + M=OK(4d 3d 4f 4b)
+EAP-PEAP: Encrypting Phase 2 data - hexdump(len=56): EAP_CODE_REQUEST(01) + EAP_id(08) + 整个报文长度(00 38) + EAP_TYPE_MSCHAPV2报文(1a) + MSCHAPV2_OP_SUCCESS(03) + EAP_id减一(07) + mschap报文长度(00 33) + S=(53 3d) + 40个字符:generate_authenticator_response_pwhash计算出来的哈希值再换成hex大写(37 43 36 39 38 34 37 38 39 44 34 39 44 30 38 32 33 34 35 45 35 31 43 44 45 38 46 35 36 30 33 42 41 44 31 43 34 34 37 33) + 空格(20) + M=OK(4d 3d 4f 4b)
 
 # 服务端发送 EAP_SUCCESS
 # 服务端发送 Access_Accept
