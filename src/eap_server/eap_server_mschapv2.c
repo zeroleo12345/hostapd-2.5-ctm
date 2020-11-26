@@ -44,7 +44,7 @@ struct eap_mschapv2_hdr {
 #define CHALLENGE_LEN 16
 
 struct eap_mschapv2_data {
-    int auth_challenge_from_tls;
+	int auth_challenge_from_tls;
 	u8 auth_challenge[CHALLENGE_LEN];   // server_random
 	u8 *peer_challenge;                 // peer_random
 	u8 auth_response[20];
