@@ -295,6 +295,8 @@ struct eap_hdr {
 	/* followed by length-4 octets of data */
 } STRUCT_PACKED;
 
+# 服务端发送EAP拓展报文 eap_identity:
+# 客户端响应 identity
 
 # 服务端发送EAP拓展报文 eap_mschapv2_buildReq()		CHALLENGE:
 eap_msg_alloc() 函数就是申请一块buffer, 装有EAP格式报文: code=REQUEST, Identity, Length, Type=EAP_TYPE_MSCHAPV2, Type-Data
