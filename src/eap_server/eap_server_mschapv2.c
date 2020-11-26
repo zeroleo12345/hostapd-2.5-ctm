@@ -44,14 +44,14 @@ struct eap_mschapv2_hdr {
 #define CHALLENGE_LEN 16
 
 struct eap_mschapv2_data {
-	u8 auth_challenge[CHALLENGE_LEN];
-	int auth_challenge_from_tls;
-	u8 *peer_challenge;
+	u8 auth_challenge[CHALLENGE_LEN];   // server_random
+	u8 *peer_challenge;                 // peer_random
 	u8 auth_response[20];
 	enum { CHALLENGE, SUCCESS_REQ, FAILURE_REQ, SUCCESS, FAILURE } state;
 	u8 resp_mschapv2_id;
 	u8 master_key[16];
 	int master_key_valid;
+    int auth_challenge_from_tls;
 };
 
 
@@ -98,6 +98,7 @@ static void eap_mschapv2_reset(struct eap_sm *sm, void *priv)
 static struct wpabuf * eap_mschapv2_build_challenge(
 	struct eap_sm *sm, struct eap_mschapv2_data *data, u8 id)
 {
+    // 返回应答: challenge
 	struct wpabuf *req;
 	struct eap_mschapv2_hdr *ms;
 	size_t ms_len;
@@ -141,6 +142,7 @@ static struct wpabuf * eap_mschapv2_build_challenge(
 static struct wpabuf * eap_mschapv2_build_success_req(
 	struct eap_sm *sm, struct eap_mschapv2_data *data, u8 id)
 {
+    // 返回应答: success_req
 	struct wpabuf *req;
 	struct eap_mschapv2_hdr *ms;
 	u8 *msg;
@@ -282,6 +284,7 @@ static void eap_mschapv2_process_response(struct eap_sm *sm,
 					  struct eap_mschapv2_data *data,
 					  struct wpabuf *respData)
 {
+    // 处理客户端收到 challenge 发回来的报文
 	struct eap_mschapv2_hdr *resp;
 	const u8 *pos, *end, *peer_challenge, *nt_response, *name;
 	u8 flags;
@@ -453,6 +456,7 @@ static void eap_mschapv2_process_success_resp(struct eap_sm *sm,
 					      struct eap_mschapv2_data *data,
 					      struct wpabuf *respData)
 {
+    // 处理客户端收到 success_req 发回来的报文
 	struct eap_mschapv2_hdr *resp;
 	const u8 *pos;
 	size_t len;
@@ -480,6 +484,7 @@ static void eap_mschapv2_process_failure_resp(struct eap_sm *sm,
 					      struct eap_mschapv2_data *data,
 					      struct wpabuf *respData)
 {
+    // 处理客户端收到 eap_fail 发回来的报文
 	struct eap_mschapv2_hdr *resp;
 	const u8 *pos;
 	size_t len;

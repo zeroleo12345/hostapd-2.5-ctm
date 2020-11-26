@@ -304,10 +304,10 @@ auth_challenge + server_id("hostapd")
 
 
 EAP-MSCHAPV2: Challenge - hexdump(len=16): 2d ae 52 bf 07 d0 de 7b 28 c4 d8 d9 8f 87 da 6a
-EAP-PEAP: Encrypting Phase 2 data - hexdump(len=33): EAP_CODE_REQUEST(01) + EAP_id(07) + 整个报文长度(00 21) + EAP_TYPE_MSCHAPV2报文(1a) + MSCHAPV2_OP_CHALLENGE(01) + 与EAP_id相同(07) + mschap报文长度(00 1c) + 随机数长度固定值(10) + 16位随机chanllenge(2d ae 52 bf 07 d0 de 7b 28 c4 d8 d9 8f 87 da 6a) + service_id(68 6f 73 74 61 70 64)
+EAP-PEAP: Encrypting Phase 2 data - hexdump(len=33): EAP_CODE_REQUEST(01) + EAP_id(07) + 整个报文长度(00 21) + EAP_TYPE_MSCHAPV2报文(1a) + MSCHAPV2_OP_CHALLENGE(01) + 与EAP_id相同(07) + mschap报文长度(00 1c) + 随机数长度固定值(10) + 16位随机chanllenge(2d ae 52 bf 07 d0 de 7b 28 c4 d8 d9 8f 87 da 6a) + server_id(68 6f 73 74 61 70 64)
 
 # 客户端响应EAP拓展报文 eap_mschapv2_process_response()		CHALLENGE:
-EAP-PEAP: Decrypted Phase 2 EAP - hexdump(len=67): EAP_CODE_RESPONSE(02) + EAP_id(07) +  长度(00 43) + MSCHAPV2 Type枚举值(1a) + MSCHAPV2_OP_RESPONSE(02) + 与EAP_id相同(07) + mschap报文长度(00 3e) + 随机数长度(31) + (16 79 ba 65 ad 16 7f 92 5c 74 c9 80 53 d6 fc 4c) + 00 00 00 00 00 00 00 00 + NT-Response(72 0e 3d a8 8d bd f8 a9 e8 bd 1a 95 d9 5f 08 03 7e 10 db 9f 01 d4 a5 fc) + Flags(00) + 用户名testuser(74 65 73 74 75 73 65 72)
+EAP-PEAP: Decrypted Phase 2 EAP - hexdump(len=67): EAP_CODE_RESPONSE(02) + EAP_id(07) +  长度(00 43) + MSCHAPV2 Type枚举值(1a) + MSCHAPV2_OP_RESPONSE(02) + 与EAP_id相同(07) + mschap报文长度(00 3e) + 次字段后除username的长度(31) + 16位随机数与8位补0(16 79 ba 65 ad 16 7f 92 5c 74 c9 80 53 d6 fc 4c + 00 00 00 00 00 00 00 00) + NT-Response(72 0e 3d a8 8d bd f8 a9 e8 bd 1a 95 d9 5f 08 03 7e 10 db 9f 01 d4 a5 fc) + Flags(00) + 用户名testuser(74 65 73 74 75 73 65 72)
 EAP-PEAP: received Phase 2: code=2 identifier=7 length=67
 EAP-MSCHAPV2: Peer-Challenge - hexdump(len=16): 16 79 ba 65 ad 16 7f 92 5c 74 c9 80 53 d6 fc 4c
 EAP-MSCHAPV2: Correct NT-Response
@@ -319,3 +319,6 @@ EAP-MSCHAPV2: Success Request Message - hexdump_ascii(len=47):
      38 32 33 34 35 45 35 31 43 44 45 38 46 35 36 30   82345E51CDE8F560
      33 42 41 44 31 43 34 34 37 33 20 4d 3d 4f 4b      3BAD1C4473 M=OK
 EAP-PEAP: Encrypting Phase 2 data - hexdump(len=56): EAP_CODE_REQUEST(01) + EAP_id(08) + 整个报文长度(00 38) + EAP_TYPE_MSCHAPV2报文(1a) + MSCHAPV2_OP_SUCCESS(03) + EAP_id减一(07) + mschap报文长度(00 33) + 算法值(53 3d 37 43 36 39 38 34 37 38 39 44 34 39 44 30 38 32 33 34 35 45 35 31 43 44 45 38 46 35 36 30 33 42 41 44 31 43 34 34 37 33 20 4d 3d 4f 4b)
+
+# 服务端发送 EAP_SUCCESS
+# 服务端发送 Access_Accept
