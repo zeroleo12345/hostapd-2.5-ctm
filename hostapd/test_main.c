@@ -91,7 +91,8 @@ struct tls_connection {
 #endif
 };
 
-void* py_authsrv_init(char *ca_cert_path, char *client_cert_path, char *private_key_path, char *private_key_passwd, char *dh_file_path) {
+void* py_authsrv_init(char *ca_cert_path, char *client_cert_path,
+        char *private_key_path, char *private_key_passwd, char *dh_file_path) {
     wpa_printf(MSG_INFO, "ca_cert_path: (%s)", ca_cert_path);
     wpa_printf(MSG_INFO, "client_cert_path: (%s)", client_cert_path);
     wpa_printf(MSG_INFO, "private_key_path: (%s)", private_key_path);
