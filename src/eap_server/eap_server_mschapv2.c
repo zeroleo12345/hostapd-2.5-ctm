@@ -393,12 +393,14 @@ static void eap_mschapv2_process_response(struct eap_sm *sm,
 			  username, username_len);
 
 	if (sm->user->password_hash) {
+	    // 数据库用户密码是以hash值保存
 		res = generate_nt_response_pwhash(data->auth_challenge,
 						  peer_challenge,
 						  username, username_len,
 						  sm->user->password,
 						  expected);
 	} else {
+	    // 用户密码明文
 		res = generate_nt_response(data->auth_challenge,
 					   peer_challenge,
 					   username, username_len,
