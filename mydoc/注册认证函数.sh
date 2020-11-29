@@ -118,3 +118,9 @@ int eap_server_mschapv2_register(void)
 
 	ret = eap_server_method_register(eap);
 }
+
+
+## 协商认证协议
+SM_STATE(EAP, PROPOSE_METHOD)
+	type = eap_sm_Policy_getNextMethod(sm, &vendor);
+	sm->m = eap_server_get_eap_method(vendor, type);
