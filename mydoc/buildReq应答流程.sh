@@ -70,5 +70,12 @@ static struct wpabuf * eap_peap_build_phase2_req(struct eap_sm *sm, struct eap_p
 {
 	buf = data->phase2_method->buildReq(sm, data->phase2_priv, id);     # phase2 调用buildReq(), 获取应答报文. -> 指向注册函数 eap_gtc_buildReq() 或 eap_mschapv2_buildReq()
 
+	wpa_hexdump_key(MSG_DEBUG, "EAP-PEAP: Encrypting Phase 2 data", req, req_len);	# 打印
+
+	if (data->peap_version == 0 && data->phase2_method->method != EAP_TYPE_TLV) {
+		req += sizeof(struct eap_hdr);			# 如果是 PEAPv0, 则减去包头
+		req_len -= sizeof(struct eap_hdr);
+	}
+
 	encr_req = eap_server_tls_encrypt(sm, &data->ssl, &msgbuf);     # 加密
 }
