@@ -79,3 +79,11 @@ static struct wpabuf * eap_peap_build_phase2_req(struct eap_sm *sm, struct eap_p
 
 	encr_req = eap_server_tls_encrypt(sm, &data->ssl, &msgbuf);     # 加密
 }
+
+
+static struct wpabuf * eap_gtc_buildReq(struct eap_sm *sm, void *priv, u8 id)
+{
+	msg = data->prefix ? "CHALLENGE=Password" : "Password";
+
+	req = eap_msg_alloc(EAP_VENDOR_IETF, EAP_TYPE_GTC, msg_len, EAP_CODE_REQUEST, id);	# 构造EAP消息Header
+}
