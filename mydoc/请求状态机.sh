@@ -11,8 +11,7 @@ static void eap_peap_process(struct eap_sm *sm, void *priv, struct wpabuf *respD
 
 
 # src/eap_server/eap_server_peap.c
-static void eap_peap_process_msg(struct eap_sm *sm, void *priv,
-				 const struct wpabuf *respData)
+static void eap_peap_process_msg(struct eap_sm *sm, void *priv, const struct wpabuf *respData)		# 服务端处理从客户端发过来的消息
 {
 	struct eap_peap_data *data = priv;
 
