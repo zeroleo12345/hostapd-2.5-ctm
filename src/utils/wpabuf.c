@@ -216,8 +216,9 @@ void wpabuf_clear_free(struct wpabuf *buf)
 
 void * wpabuf_put(struct wpabuf *buf, size_t len)
 {
-    // 标记alloc出来的空间占用 used += len
-	void *tmp = wpabuf_mhead_u8(buf) + wpabuf_len(buf);  // 可用空间起始位置 = alloc空间指针头 + 已使用偏移量
+    // 1. 标记alloc出来的空间占用 used += len
+    // 2. 返回可用空间起始位置. 计算方法: alloc空间指针头 + 已使用偏移量
+	void *tmp = wpabuf_mhead_u8(buf) + wpabuf_len(buf);
 	buf->used += len;
 	if (buf->used > buf->size) {
 		wpabuf_overflow(buf, len);
