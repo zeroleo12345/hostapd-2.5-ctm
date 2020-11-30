@@ -21,10 +21,17 @@ SM_STATE(EAP, METHOD_RESPONSE)      # 在主流程中!!!
 
 # src/eap_server/eap_server_peap.c
 static void eap_peap_process(struct eap_sm *sm, void *priv, struct wpabuf *respData)    # 被注册 eap->process = eap_peap_process;
+{
 	if (eap_server_tls_process(sm, &data->ssl, respData, data, EAP_TYPE_PEAP, eap_peap_process_version, eap_peap_process_msg) < 0) {    # 通过传入的回调函数调用下面
 		eap_peap_state(data, FAILURE);
 		return;
 	}
+	if (data->state == SUCCESS ||
+	    !tls_connection_established(sm->ssl_ctx, data->ssl.conn) ||
+	    !tls_connection_resumed(sm->ssl_ctx, data->ssl.conn))		# 判断是否从旧session恢复, 只要phase1完成后, 可以直接eap_success
+		return;
+
+}
 
 
 # src/eap_server/eap_server_peap.c

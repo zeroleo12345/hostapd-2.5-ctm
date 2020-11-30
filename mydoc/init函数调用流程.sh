@@ -1,6 +1,7 @@
 
 # src/eap_server/eap_server.c
 SM_STATE(EAP, PROPOSE_METHOD)		# 在主流程中!!!
+	SM_ENTRY(EAP, PROPOSE_METHOD);		# 打印 EAP: EAP entering state PROPOSE_METHOD
     sm->eap_method_priv = sm->m->init(sm);      # phase1 调用 init() -> 指向注册函数 eap_peap_init()
 
 
@@ -19,7 +20,7 @@ static int eap_peap_phase2_init(struct eap_sm *sm, struct eap_peap_data *data, i
 # src/eap_server/eap_server_peap.c
 static void * eap_peap_init(struct eap_sm *sm)		# 被注册 eap->init = eap_peap_init;
 {
-	if (eap_server_tls_ssl_init(sm, &data->ssl, 0, EAP_TYPE_PEAP)) {		# 调用下方
+	if (eap_server_tls_ssl_init(sm, &data->ssl, 0, EAP_TYPE_PEAP)) {		# 调用下方, 初始化 ssl->conn
 		wpa_printf(MSG_INFO, "EAP-PEAP: Failed to initialize SSL.");
 		eap_peap_reset(sm, data);
 		return NULL;

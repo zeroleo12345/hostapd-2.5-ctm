@@ -47,6 +47,22 @@ enum {
     FAILURE = 11
 } state;
 
+
+## hostapd日志
+EAP: EAP entering state SELECT_ACTION
+EAP: getDecision: another method available -> CONTINUE
+EAP: EAP entering state PROPOSE_METHOD
+EAP-PEAP: START -> PHASE1
+EAP-PEAP: PHASE1 -> PHASE2_START
+EAP-PEAP: PHASE2_START -> PHASE2_ID
+EAP-PEAP: PHASE2_ID -> PHASE2_METHOD
+EAP-PEAP: PHASE2_METHOD -> PHASE2_TLV
+EAP-PEAP: PHASE2_TLV -> SUCCESS
+EAP: getDecision: method succeeded -> SUCCESS
+hostapd_interface_deinit_free: driver=0x56283bea1940 drv_priv=0x56283c781440 -> hapd_deinit
+
+
+##
 SM_STEP(EAP) sm->EAP_state = 1
 SM_STEP(EAP) sm->EAP_state = 16
 SM_STEP(EAP) sm->EAP_state = 5
