@@ -10,7 +10,7 @@ data->state = 5
 data->state = 8
 
 # src/eap_server/eap_server.c
-SM_STATE(EAP, METHOD_RESPONSE)      # 在主流程中!!!
+SM_STATE(EAP, METHOD_RESPONSE)      # 在主流程中!!! 主要接收到客户端响应, 三个连续处理状态: RECEIVED -> INTEGRITY_CHECK -> METHOD_RESPONSE
 {
 	SM_ENTRY(EAP, METHOD_RESPONSE);
 
